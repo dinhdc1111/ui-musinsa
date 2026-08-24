@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+
+# Local environment files
+.env.local
+.env.*.local
+
+# Logs
+*.log
+pnpm-debug.log*
+
+# Editor and operating system files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+dist/
+docs/
+musinsa-ui-captures/
+WORKFLOW_PROMPT.md
