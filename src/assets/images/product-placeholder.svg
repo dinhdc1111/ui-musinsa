@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-labelledby="title description">
+  <title id="title">Product image placeholder</title>
+  <desc id="description">A neutral geometric placeholder for future product photography.</desc>
+  <rect width="900" height="1200" fill="#e8e8e4" />
+  <rect x="210" y="190" width="480" height="820" rx="240" fill="#d4d4ce" />
+  <path d="M210 850 690 350v660H210Z" fill="#c2c2bb" />
+</svg>
