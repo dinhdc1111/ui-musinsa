@@ -31,7 +31,7 @@ import {
 
 const heroIndex = ref(0)
 const selectedFilter = ref('All')
-const showWelcomeOffer = ref(true)
+// const showWelcomeOffer = ref(true)
 
 const visibleCampaigns = computed(() =>
   heroCampaigns.map((_, index) => heroCampaigns[(heroIndex.value + index) % heroCampaigns.length]!),
@@ -125,13 +125,13 @@ const saleProducts = homeProducts.slice(2, 14)
     <section class="home-section welcome-section">
       <div class="home-section__heading-row">
         <h2>Welcome to MUSINSA</h2>
-        <div v-if="showWelcomeOffer" class="welcome-section__offer">
+        <!-- <div v-if="showWelcomeOffer" class="welcome-section__offer">
           <span>Sign up in seconds and unlock exclusive welcome offers.</span>
           <RouterLink to="/register">Get Offer</RouterLink>
           <button type="button" aria-label="Dismiss offer" @click="showWelcomeOffer = false">
             <X :size="15" />
           </button>
-        </div>
+        </div> -->
       </div>
 
       <div class="welcome-section__grid">
