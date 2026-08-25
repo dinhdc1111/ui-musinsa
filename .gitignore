@@ -9,6 +9,9 @@ coverage/
 .env.local
 .env.*.local
 
+# MCP config (contains API keys)
+.mcp.json
+
 # Logs
 *.log
 pnpm-debug.log*

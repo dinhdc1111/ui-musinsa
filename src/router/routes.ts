@@ -29,6 +29,17 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'style-guide',
+        name: ROUTE_NAMES.styleGuide,
+        component: () => import('@/pages/StyleGuidePage.vue'),
+        meta: {
+          layout: 'default',
+          title: 'Design system',
+          description: 'Internal visual and interaction reference for shared UI primitives.',
+          implementationPhase: 3,
+        },
+      },
+      {
         path: 'products',
         name: ROUTE_NAMES.products,
         component: plannedPage,

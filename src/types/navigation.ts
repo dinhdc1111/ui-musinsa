@@ -8,3 +8,21 @@ export interface NavigationItem {
   badge?: string
   children?: NavigationItem[]
 }
+
+export interface FooterLink {
+  id: EntityId
+  label: string
+  routeName?: RouteName
+}
+
+export interface FooterSection {
+  id: EntityId
+  title: string
+  links: readonly FooterLink[]
+}
+
+export interface AnnouncementContent {
+  message: string
+  actionLabel: string
+  to: string
+}

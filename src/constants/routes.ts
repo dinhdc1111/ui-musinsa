@@ -1,5 +1,6 @@
 export const ROUTE_NAMES = {
   home: 'home',
+  styleGuide: 'style-guide',
   products: 'products',
   category: 'category',
   brands: 'brands',
