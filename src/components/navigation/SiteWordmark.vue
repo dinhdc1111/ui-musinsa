@@ -33,8 +33,14 @@ withDefaults(defineProps<Props>(), {
 }
 
 .site-wordmark img {
-  width: 8.125rem;
+  width: 6.875rem;
   height: auto;
+}
+
+@media (min-width: 64rem) {
+  .site-wordmark img {
+    width: 7.5rem;
+  }
 }
 
 .site-wordmark--inverse img {

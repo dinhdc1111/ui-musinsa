@@ -14,7 +14,7 @@ import {
   Star,
   Timer,
   Truck,
-  X,
+  // X,
 } from '@lucide/vue'
 import { computed, ref, type Component } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -242,7 +242,7 @@ const saleProducts = homeProducts.slice(2, 14)
 .home-page {
   width: min(100%, var(--ds-container-content));
   margin: 0 auto;
-  padding: 1.25rem 0.8125rem 5rem;
+  padding: 1.25rem 1.25rem 7.5rem;
   color: #0a0f18;
   background: #fff;
 }
@@ -270,6 +270,7 @@ const saleProducts = homeProducts.slice(2, 14)
   display: block;
   height: clamp(18rem, 28vw, 22.375rem);
   overflow: hidden;
+  border-radius: 0.25rem;
   color: #fff;
   background: #111;
 }
@@ -303,13 +304,15 @@ const saleProducts = homeProducts.slice(2, 14)
 
 .home-hero__copy strong {
   font-family: var(--ds-font-display);
-  font-size: clamp(1.4rem, 2vw, 1.75rem);
-  line-height: 1.05;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.875rem;
 }
 
 .home-hero__copy span {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.0625rem;
 }
 
 .home-hero__arrow {
@@ -415,12 +418,12 @@ const saleProducts = homeProducts.slice(2, 14)
 
 .home-section h2,
 .home-section__heading-row h2 {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.875rem;
   font-family: var(--ds-font-display);
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  font-size: 2.25rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 2.625rem;
 }
 
 .home-section__heading-row {
@@ -428,6 +431,14 @@ const saleProducts = homeProducts.slice(2, 14)
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.welcome-section .home-section__heading-row h2 {
+  margin-bottom: 3.125rem;
+}
+
+.hot-topics > h2 {
+  margin-bottom: 3.0625rem;
 }
 
 .welcome-section__offer {
@@ -460,13 +471,18 @@ const saleProducts = homeProducts.slice(2, 14)
 .hot-topics__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 1rem;
+}
+
+.welcome-section__grid {
+  grid-template-columns: repeat(3, calc((100% - 2.25rem) / 3));
 }
 
 .welcome-card__visual {
   position: relative;
   display: flex;
-  min-height: 15rem;
+  min-height: 0;
+  aspect-ratio: 3 / 2;
   flex-wrap: wrap;
   align-content: center;
   align-items: center;
@@ -493,14 +509,22 @@ const saleProducts = homeProducts.slice(2, 14)
 }
 
 .welcome-card h3 {
-  margin: 0.75rem 0 0.25rem;
-  font-size: 0.75rem;
+  margin: 0;
+  padding: 0.75rem 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.375rem;
 }
 
 .welcome-card p {
   margin: 0;
-  color: #656565;
-  font-size: 0.6875rem;
+  padding-inline: 0.25rem;
+  overflow: hidden;
+  color: #0a0f18;
+  font-size: 1rem;
+  line-height: 1.375rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .hot-topics__grid a {
@@ -508,13 +532,14 @@ const saleProducts = homeProducts.slice(2, 14)
   min-width: 0;
   flex-direction: column;
   color: #111;
-  font-size: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.375rem;
   text-decoration: none;
 }
 
 .hot-topics__image {
   display: block;
-  height: 15rem;
+  aspect-ratio: 3 / 2;
   margin-bottom: 0.75rem;
   overflow: hidden;
   background: #f3f3f3;
@@ -532,22 +557,22 @@ const saleProducts = homeProducts.slice(2, 14)
 }
 
 .hot-topics__grid a > span:last-child {
-  margin-top: 0.2rem;
+  margin-top: 0;
   color: #666;
-  font-size: 0.6875rem;
+  font-size: 1rem;
 }
 
 .favorites-section__filters {
   display: flex;
   overflow-x: auto;
   gap: 0.4rem;
-  margin: -0.25rem 0 1rem;
+  margin: 0 0 2rem;
   scrollbar-width: none;
 }
 
 .favorites-section__filters button {
   min-width: max-content;
-  min-height: 1.75rem;
+  min-height: 2rem;
   padding: 0.25rem 0.75rem;
   border: 1px solid #d8d8d8;
   border-radius: 999px;
@@ -567,20 +592,20 @@ const saleProducts = homeProducts.slice(2, 14)
 .sale-section__grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 1.5rem 0.5rem;
+  gap: 1.5rem 1rem;
 }
 
 .home-section__outline-link {
   display: flex;
-  width: min(100%, 11rem);
-  min-height: 2.5rem;
+  width: min(100%, 12.25rem);
+  min-height: 2.75rem;
   align-items: center;
   justify-content: center;
-  margin: 2rem auto 0;
+  margin: 3.75rem auto 0;
   border: 1px solid #999;
   color: #111;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 400;
   text-decoration: none;
 }
 
@@ -599,23 +624,27 @@ const saleProducts = homeProducts.slice(2, 14)
   text-decoration: none;
 }
 
-@media (max-width: 47.999rem) {
+@media (max-width: 63.999rem) {
   .home-page {
     padding: 0 0 3.5rem;
     overflow: hidden;
   }
 
   .home-hero__grid {
-    display: block;
+    display: grid;
+    overflow-x: auto;
+    grid-auto-columns: calc(100vw - 2rem);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    gap: 0.5rem;
+    padding-inline: 1rem;
+    scrollbar-width: none;
   }
 
   .home-hero__card {
-    display: none;
-    height: 17.5rem;
-  }
-
-  .home-hero__card:first-child {
     display: block;
+    height: auto;
+    aspect-ratio: 408 / 358;
   }
 
   .home-hero__copy {
@@ -625,8 +654,9 @@ const saleProducts = homeProducts.slice(2, 14)
   }
 
   .home-hero__copy strong {
-    max-width: 16rem;
-    font-size: 2rem;
+    max-width: 19rem;
+    font-size: 1.5rem;
+    line-height: 1.875rem;
   }
 
   .home-hero__arrow {
@@ -645,7 +675,7 @@ const saleProducts = homeProducts.slice(2, 14)
   }
 
   .campaign-shortcuts {
-    padding-top: 0.4rem;
+    padding-top: 1rem;
   }
 
   .campaign-shortcuts__tiles,
@@ -654,30 +684,52 @@ const saleProducts = homeProducts.slice(2, 14)
     flex-wrap: nowrap;
     justify-content: flex-start;
     overflow-x: auto;
-    padding-inline: 0.5rem;
+    padding-inline: 1rem;
   }
 
   .campaign-shortcuts__tiles a {
-    width: 7rem;
-    min-width: 7rem;
+    width: 8.75rem;
+    min-width: 8.75rem;
+    height: 3.75rem;
+    padding: 0;
+    border-radius: 0.125rem;
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
   }
 
   .campaign-shortcuts__utilities a {
-    min-height: 2rem;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.625rem;
+    min-height: 2.375rem;
+    padding: 0.3125rem 0.5rem 0.3125rem 0.375rem;
+    font-size: 0.8125rem;
+    line-height: 1.0625rem;
   }
 
   .home-section,
   :deep(.product-rail) {
-    margin-top: 2.75rem;
-    padding-inline: 0.5rem;
+    margin-top: 3.125rem;
+    padding-inline: 0.75rem;
+  }
+
+  .welcome-section {
+    margin-top: 2rem;
+  }
+
+  .welcome-section .home-section__heading-row h2 {
+    margin-bottom: 2rem;
+  }
+
+  .hot-topics > h2 {
+    margin-bottom: 2rem;
   }
 
   .home-section h2,
   .home-section__heading-row h2,
   :deep(.product-rail h2) {
-    font-size: 1.45rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.875rem;
   }
 
   .home-section__heading-row {
@@ -692,25 +744,39 @@ const saleProducts = homeProducts.slice(2, 14)
   .hot-topics__grid {
     display: grid;
     overflow-x: auto;
-    grid-auto-columns: 82%;
+    grid-auto-columns: calc(100vw - 3.125rem);
     grid-auto-flow: column;
     grid-template-columns: none;
     gap: 0.5rem;
-    margin-inline: -0.5rem;
-    padding-inline: 0.5rem;
+    margin-inline: -0.75rem;
+    padding-inline: 0.75rem;
     scrollbar-width: none;
+  }
+
+  .welcome-section__grid {
+    grid-template-columns: none;
   }
 
   .welcome-card__visual,
   .hot-topics__image {
     min-height: 0;
-    height: 12rem;
+    height: auto;
+    aspect-ratio: 3 / 2;
   }
 
   .favorites-section__grid,
   .sale-section__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.25rem 0.25rem;
+  }
+
+  .favorites-section__filters {
+    margin-bottom: 1rem;
+  }
+
+  .home-section__outline-link {
+    margin-top: 2rem;
+    font-size: 0.75rem;
   }
 
   .brand-shops__grid {

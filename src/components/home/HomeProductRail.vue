@@ -55,12 +55,12 @@ const scrollProducts = (direction: number) => {
 }
 
 .product-rail h2 {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.875rem;
   font-family: var(--ds-font-display);
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+  font-size: 2.25rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 2.625rem;
 }
 
 .product-rail__body {
@@ -109,28 +109,36 @@ const scrollProducts = (direction: number) => {
 
 .product-rail__more {
   display: flex;
-  width: min(100%, 10rem);
-  min-height: 2.5rem;
+  width: min(100%, 8.125rem);
+  min-height: 2.75rem;
   align-items: center;
   justify-content: center;
-  margin: 1.75rem auto 0;
+  margin: 3.5rem auto 0;
   border: 1px solid #999;
   color: #111;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 400;
   text-decoration: none;
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 64rem) {
   .product-rail__grid {
-    grid-auto-columns: calc((100% - 2.25rem) / 4);
+    grid-auto-columns: calc((100% - 3rem) / 4);
     grid-auto-flow: column;
     grid-template-columns: none;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .product-rail__arrow {
     display: grid;
+  }
+}
+
+@media (max-width: 63.999rem) {
+  .product-rail h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.875rem;
   }
 }
 </style>

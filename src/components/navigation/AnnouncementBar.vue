@@ -8,8 +8,12 @@ import { announcementContent } from '@/constants/navigation'
   <aside class="announcement-bar" aria-label="Store announcement">
     <div class="announcement-bar__inner">
       <span>{{ announcementContent.message }}</span>
-      <span aria-hidden="true">|</span>
-      <RouterLink class="announcement-bar__link" :to="announcementContent.to">
+      <span v-if="announcementContent.actionLabel" aria-hidden="true">|</span>
+      <RouterLink
+        v-if="announcementContent.actionLabel"
+        class="announcement-bar__link"
+        :to="announcementContent.to"
+      >
         {{ announcementContent.actionLabel }}
       </RouterLink>
     </div>
@@ -28,12 +32,21 @@ import { announcementContent } from '@/constants/navigation'
   justify-content: center;
   gap: var(--ds-space-2);
   width: min(100%, var(--ds-container-content));
-  min-height: 2.5rem;
+  height: 2.3125rem;
   margin: 0 auto;
-  padding: var(--ds-space-2) var(--ds-space-page-gutter);
-  font-size: 0.9375rem;
-  line-height: var(--ds-type-caption-line-height);
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
   text-align: center;
+}
+
+@media (min-width: 64rem) {
+  .announcement-bar__inner {
+    height: 2.5rem;
+    padding-inline: 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+  }
 }
 
 .announcement-bar__link {

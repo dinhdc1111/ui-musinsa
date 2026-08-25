@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 
 import SiteFooter from '@/components/layout/SiteFooter.vue'
+import MobileBottomNavigation from '@/components/navigation/MobileBottomNavigation.vue'
 import MobileNavigationDrawer from '@/components/navigation/MobileNavigationDrawer.vue'
 import SiteHeader from '@/components/navigation/SiteHeader.vue'
 
@@ -18,5 +19,6 @@ const isNavigationOpen = ref(false)
       <RouterView />
     </main>
     <SiteFooter />
+    <MobileBottomNavigation @open-navigation="isNavigationOpen = true" />
   </div>
 </template>

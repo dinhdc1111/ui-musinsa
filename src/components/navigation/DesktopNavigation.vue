@@ -27,17 +27,24 @@ import { primaryNavigation } from '@/constants/navigation'
 
 <style scoped>
 .desktop-navigation {
-  display: none;
+  display: block;
+  overflow: hidden;
   background: var(--ds-color-surface);
 }
 
 .desktop-navigation__inner {
   display: flex;
   justify-content: flex-start;
-  gap: clamp(1.25rem, 2vw, 2rem);
+  gap: 1.25rem;
   width: min(100%, var(--ds-container-content));
   margin: 0 auto;
-  padding: 0 var(--ds-space-page-gutter);
+  overflow-x: auto;
+  padding: 0 1rem;
+  scrollbar-width: none;
+}
+
+.desktop-navigation__inner::-webkit-scrollbar {
+  display: none;
 }
 
 .desktop-navigation__link {
@@ -78,7 +85,7 @@ import { primaryNavigation } from '@/constants/navigation'
 }
 
 .desktop-navigation__link:first-child {
-  margin-right: 0.75rem;
+  display: none;
 }
 
 .desktop-navigation__link:first-child::before {
@@ -104,13 +111,35 @@ import { primaryNavigation } from '@/constants/navigation'
   transform: translateX(-50%);
 }
 
+@media (max-width: 63.999rem) {
+  .desktop-navigation__link:nth-child(2) .desktop-navigation__label {
+    text-transform: none;
+  }
+}
+
+.desktop-navigation__link:nth-child(2) .desktop-navigation__label {
+  text-transform: none;
+}
+
 @media (min-width: 64rem) {
-  .desktop-navigation {
-    display: block;
+  .desktop-navigation__inner {
+    gap: 2rem;
+    overflow: visible;
+    padding-inline: 1.25rem;
   }
 
-  .desktop-navigation__inner {
-    padding-inline: 0.8125rem;
+  .desktop-navigation__link:first-child {
+    display: flex;
+    margin-right: 2.125rem;
+  }
+
+  .desktop-navigation__link {
+    min-height: 3.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .desktop-navigation__link:first-child::before {
+    right: -2.0625rem;
   }
 }
 </style>

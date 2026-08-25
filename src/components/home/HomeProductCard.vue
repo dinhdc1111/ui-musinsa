@@ -24,16 +24,18 @@ const formatPrice = (amount: number) => `${new Intl.NumberFormat('vi-VN').format
       <img :src="product.image" :alt="product.name" loading="lazy" />
       <span v-if="rank" class="home-product__rank">{{ rank }}</span>
       <span v-if="product.badge" class="home-product__badge">{{ product.badge }}</span>
-      <Heart class="home-product__heart" :size="16" aria-hidden="true" />
+      <Heart class="home-product__heart" :size="24" aria-hidden="true" />
     </RouterLink>
 
     <RouterLink class="home-product__details" :to="`/products/${product.slug}`">
       <strong class="home-product__brand">{{ product.brand }}</strong>
       <span class="home-product__name">{{ product.name }}</span>
       <span class="home-product__prices">
+        <span v-if="product.originalPrice" class="home-product__original-row">
+          <del>{{ formatPrice(product.originalPrice) }}</del>
+          <em v-if="product.discount">{{ product.discount }}%</em>
+        </span>
         <strong>{{ formatPrice(product.price) }}</strong>
-        <del v-if="product.originalPrice">{{ formatPrice(product.originalPrice) }}</del>
-        <em v-if="product.discount">{{ product.discount }}%</em>
       </span>
     </RouterLink>
   </article>
@@ -86,7 +88,8 @@ const formatPrice = (amount: number) => `${new Intl.NumberFormat('vi-VN').format
   padding: 0.125rem 0.25rem;
   color: #fff;
   background: #f04a40;
-  font-size: 0.5625rem;
+  font-size: 0.6875rem;
+  line-height: 0.9375rem;
   font-weight: 700;
 }
 
@@ -102,35 +105,44 @@ const formatPrice = (amount: number) => `${new Intl.NumberFormat('vi-VN').format
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 0.2rem;
-  padding-top: 0.625rem;
+  gap: 0;
+  padding: 0.625rem 0.125rem 0;
   text-decoration: none;
 }
 
 .home-product__brand {
   overflow: hidden;
-  font-size: 0.6875rem;
+  margin-bottom: 0.125rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .home-product__name {
   display: -webkit-box;
-  min-height: 2rem;
+  min-height: 1.0625rem;
   overflow: hidden;
   color: #555;
-  font-size: 0.6875rem;
-  line-height: 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.0625rem;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .home-product__prices {
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 0.25rem;
+  flex-direction: column;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.home-product__original-row {
+  display: flex;
   align-items: baseline;
   gap: 0.25rem;
-  font-size: 0.6875rem;
 }
 
 .home-product__prices strong,
@@ -141,18 +153,19 @@ const formatPrice = (amount: number) => `${new Intl.NumberFormat('vi-VN').format
 
 .home-product__prices del {
   color: #888;
-  font-size: 0.5625rem;
+  font-size: 0.75rem;
 }
 
 .home-product--compact .home-product__details {
-  padding-top: 0.5rem;
+  height: 5.4375rem;
+  padding-top: 0.625rem;
+  overflow: hidden;
 }
 
 @media (min-width: 48rem) {
   .home-product__brand,
-  .home-product__name,
   .home-product__prices {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
   }
 }
 </style>

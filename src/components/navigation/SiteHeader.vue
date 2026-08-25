@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { Globe, Heart, Menu, Search, ShoppingBag, UserRound } from '@lucide/vue'
+import { Globe, Heart, Search, ShoppingBag, UserRound, X } from '@lucide/vue'
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 
-import BaseIconButton from '@/components/ui/BaseIconButton.vue'
 import { ROUTE_NAMES } from '@/constants/routes'
 
 import AnnouncementBar from './AnnouncementBar.vue'
 import DesktopNavigation from './DesktopNavigation.vue'
 import SiteWordmark from './SiteWordmark.vue'
 
-const emit = defineEmits<{
-  'open-navigation': []
-}>()
-
 const router = useRouter()
 const searchQuery = ref('')
+const showAppBanner = ref(true)
 
 const submitSearch = () => {
   const query = searchQuery.value.trim()
@@ -29,18 +25,17 @@ const submitSearch = () => {
 
 <template>
   <header class="site-header">
-    <div class="site-header__compact site-header__container">
-      <BaseIconButton
-        class="site-header__menu-button"
-        label="Open navigation"
-        @click="emit('open-navigation')"
-      >
-        <Menu :size="20" />
-      </BaseIconButton>
+    <div v-if="showAppBanner" class="site-header__app-banner">
+      <button type="button" aria-label="Close app banner" @click="showAppBanner = false">
+        <X :size="16" />
+      </button>
+      <span class="site-header__app-mark">MUSINSA</span>
+      <p>Switch to the app. New members get a 15% coupon.</p>
+      <a href="#site-footer">Go to App</a>
+    </div>
 
-      <SiteWordmark class="site-header__compact-wordmark" />
-
-      <nav class="site-header__compact-actions" aria-label="Quick actions">
+    <div class="site-header__sticky">
+      <div class="site-header__compact site-header__container">
         <RouterLink
           class="site-header__icon-link"
           :to="{ name: ROUTE_NAMES.search }"
@@ -49,26 +44,23 @@ const submitSearch = () => {
         >
           <Search :size="20" aria-hidden="true" />
         </RouterLink>
+
+        <SiteWordmark class="site-header__compact-wordmark" />
+
+        <nav class="site-header__compact-actions" aria-label="Quick actions">
         <RouterLink
-          class="site-header__icon-link site-header__tablet-action"
-          :to="{ name: ROUTE_NAMES.wishlist }"
-          aria-label="Wishlist"
-          title="Wishlist"
-        >
-          <Heart :size="20" aria-hidden="true" />
-        </RouterLink>
-        <RouterLink
-          class="site-header__icon-link"
+          class="site-header__icon-link site-header__cart-link"
           :to="{ name: ROUTE_NAMES.cart }"
           aria-label="Cart"
           title="Cart"
         >
           <ShoppingBag :size="20" aria-hidden="true" />
+          <span class="site-header__cart-count" aria-hidden="true">0</span>
         </RouterLink>
-      </nav>
-    </div>
+        </nav>
+      </div>
 
-    <div class="site-header__desktop site-header__container">
+      <div class="site-header__desktop site-header__container">
       <form class="site-header__search" role="search" @submit.prevent="submitSearch">
         <Search class="site-header__search-icon" :size="18" aria-hidden="true" />
         <label class="site-header__visually-hidden" for="global-search">Search products</label>
@@ -120,19 +112,77 @@ const submitSearch = () => {
           <UserRound :size="23" aria-hidden="true" />
         </RouterLink>
       </nav>
-    </div>
+      </div>
 
-    <DesktopNavigation />
-    <AnnouncementBar />
+      <AnnouncementBar class="site-header__mobile-announcement" />
+      <DesktopNavigation />
+    </div>
+    <AnnouncementBar class="site-header__desktop-announcement" />
   </header>
 </template>
 
 <style scoped>
 .site-header {
+  display: contents;
+  z-index: var(--ds-z-sticky);
+  background: var(--ds-color-surface);
+}
+
+.site-header__sticky {
   position: sticky;
   z-index: var(--ds-z-sticky);
   top: 0;
-  background: var(--ds-color-surface);
+  background: #fff;
+}
+
+.site-header__app-banner {
+  display: grid;
+  min-height: 3.5rem;
+  grid-template-columns: 1.25rem 2.5rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 1rem;
+  border-bottom: 1px solid #ededed;
+  background: #fff;
+}
+
+.site-header__app-banner button {
+  display: grid;
+  padding: 0;
+  border: 0;
+  place-items: center;
+  background: transparent;
+}
+
+.site-header__app-mark {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 0.5rem;
+  color: #fff;
+  background: #050505;
+  font-size: 0.45rem;
+  font-weight: 900;
+}
+
+.site-header__app-banner p {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.05rem;
+}
+
+.site-header__app-banner a {
+  display: grid;
+  min-height: 1.875rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.25rem;
+  place-items: center;
+  color: #fff;
+  background: #f04a40;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .site-header__container {
@@ -143,9 +193,10 @@ const submitSearch = () => {
 
 .site-header__compact {
   display: grid;
-  min-height: 3.75rem;
+  min-height: 3.125rem;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  padding-inline: 0.75rem;
 }
 
 .site-header__menu-button {
@@ -218,8 +269,11 @@ const submitSearch = () => {
   color: var(--ds-color-accent);
 }
 
-.site-header__tablet-action,
 .site-header__desktop {
+  display: none;
+}
+
+.site-header__desktop-announcement {
   display: none;
 }
 
@@ -234,15 +288,18 @@ const submitSearch = () => {
   border: 0;
 }
 
-@media (min-width: 48rem) {
-  .site-header__tablet-action {
-    display: inline-flex;
-  }
-}
-
 @media (min-width: 64rem) {
+  .site-header__app-banner,
+  .site-header__mobile-announcement {
+    display: none;
+  }
+
+  .site-header__desktop-announcement {
+    display: block;
+  }
+
   .site-header__container {
-    padding-inline: 0.8125rem;
+    padding-inline: 1.25rem;
   }
 
   .site-header__compact {
@@ -251,7 +308,7 @@ const submitSearch = () => {
 
   .site-header__desktop {
     display: grid;
-    min-height: 3.875rem;
+    min-height: 3.75rem;
     grid-template-columns: minmax(15rem, 1fr) auto minmax(15rem, 1fr);
     align-items: center;
     gap: var(--ds-space-8);

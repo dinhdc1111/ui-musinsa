@@ -31,6 +31,10 @@ body {
   line-height: var(--ds-type-body-line-height);
 }
 
+@media (max-width: 63.999rem) {
+  body { padding-bottom: 3.125rem; }
+}
+
 button,
 input,
 select,

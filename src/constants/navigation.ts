@@ -26,7 +26,7 @@ export const accountNavigation: readonly NavigationItem[] = [
 ]
 
 export const announcementContent = {
-  message: 'Extra 20% Off First Order',
-  actionLabel: '7 Days Only',
+  message: 'Official online store for leading Korean fashion brands',
+  actionLabel: '',
   to: '/promotions/first-order',
 } as const satisfies AnnouncementContent
