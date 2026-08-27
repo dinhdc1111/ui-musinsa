@@ -32,6 +32,12 @@ const generatedId = useId()
 const titleId = `modal-title-${generatedId}`
 const descriptionId = `modal-description-${generatedId}`
 
+const sizeClasses = {
+  sm: 'max-w-[26rem]',
+  md: 'max-w-[36rem]',
+  lg: 'max-w-[52rem]',
+} as const
+
 const requestClose = () => {
   emit('update:modelValue', false)
   emit('close')
@@ -52,11 +58,15 @@ const handleBackdrop = (event: MouseEvent) => {
 <template>
   <Teleport to="body">
     <Transition name="modal-fade">
-      <div v-if="modelValue" class="modal-backdrop" @mousedown="handleBackdrop">
+      <div
+        v-if="modelValue"
+        class="bg-overlay px-page-gutter fixed inset-0 z-[var(--ds-z-modal)] grid place-items-center"
+        @mousedown="handleBackdrop"
+      >
         <section
           ref="panelRef"
-          class="modal-panel"
-          :class="`modal-panel--${size}`"
+          class="modal-panel rounded-panel bg-surface shadow-overlay max-h-[min(90vh,48rem)] w-full overflow-auto outline-none"
+          :class="sizeClasses[size]"
           role="dialog"
           aria-modal="true"
           :aria-labelledby="titleId"
@@ -64,10 +74,16 @@ const handleBackdrop = (event: MouseEvent) => {
           tabindex="-1"
           @keydown="onKeydown"
         >
-          <header class="modal-panel__header">
+          <header class="border-border flex items-start justify-between gap-6 border-b p-6 md:p-8">
             <div>
-              <h2 :id="titleId" class="modal-panel__title">{{ title }}</h2>
-              <p v-if="description" :id="descriptionId" class="modal-panel__description">
+              <h2 :id="titleId" class="font-display m-0 text-[1.75rem] leading-none font-medium">
+                {{ title }}
+              </h2>
+              <p
+                v-if="description"
+                :id="descriptionId"
+                class="text-label text-muted mt-2 leading-6"
+              >
                 {{ description }}
               </p>
             </div>
@@ -75,8 +91,13 @@ const handleBackdrop = (event: MouseEvent) => {
               <X :size="18" />
             </BaseIconButton>
           </header>
-          <div class="modal-panel__body"><slot /></div>
-          <footer v-if="$slots.footer" class="modal-panel__footer"><slot name="footer" /></footer>
+          <div class="leading-body p-6 md:p-8"><slot /></div>
+          <footer
+            v-if="$slots.footer"
+            class="border-border flex flex-wrap justify-end gap-3 border-t p-6 md:p-8"
+          >
+            <slot name="footer" />
+          </footer>
         </section>
       </div>
     </Transition>
@@ -84,79 +105,7 @@ const handleBackdrop = (event: MouseEvent) => {
 </template>
 
 <style scoped>
-.modal-backdrop {
-  position: fixed;
-  z-index: var(--ds-z-modal);
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: var(--ds-space-page-gutter);
-  background: var(--ds-color-overlay);
-}
-
-.modal-panel {
-  width: 100%;
-  max-height: min(90vh, 48rem);
-  overflow: auto;
-  border-radius: var(--ds-radius-panel);
-  outline: none;
-  background: var(--ds-color-surface);
-  box-shadow: var(--ds-shadow-overlay);
-}
-
-.modal-panel--sm {
-  max-width: 26rem;
-}
-
-.modal-panel--md {
-  max-width: 36rem;
-}
-
-.modal-panel--lg {
-  max-width: 52rem;
-}
-
-.modal-panel__header,
-.modal-panel__body,
-.modal-panel__footer {
-  padding: var(--ds-space-6);
-}
-
-.modal-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--ds-space-6);
-  border-bottom: 1px solid var(--ds-color-border);
-}
-
-.modal-panel__title {
-  margin: 0;
-  font-family: var(--ds-font-display);
-  font-size: 1.75rem;
-  font-weight: 500;
-  line-height: 1;
-}
-
-.modal-panel__description {
-  margin: var(--ds-space-2) 0 0;
-  color: var(--ds-color-muted);
-  font-size: var(--ds-type-label-size);
-  line-height: 1.5;
-}
-
-.modal-panel__body {
-  line-height: var(--ds-type-body-line-height);
-}
-
-.modal-panel__footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--ds-space-3);
-  border-top: 1px solid var(--ds-color-border);
-}
-
+/* Vue transition class contracts cannot be expressed on the teleported nodes with utilities. */
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity var(--ds-motion-base) var(--ds-ease-standard);
@@ -179,13 +128,5 @@ const handleBackdrop = (event: MouseEvent) => {
 .modal-fade-enter-from .modal-panel,
 .modal-fade-leave-to .modal-panel {
   transform: translateY(0.75rem);
-}
-
-@media (min-width: 48rem) {
-  .modal-panel__header,
-  .modal-panel__body,
-  .modal-panel__footer {
-    padding: var(--ds-space-8);
-  }
 }
 </style>

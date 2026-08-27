@@ -12,10 +12,18 @@ const emit = defineEmits<{
 <template>
   <nav class="mobile-bottom-navigation" aria-label="Mobile navigation">
     <RouterLink :to="{ name: ROUTE_NAMES.home }"><Home :size="21" /><span>Home</span></RouterLink>
-    <button type="button" @click="emit('open-navigation')"><Search :size="21" /><span>Category</span></button>
-    <RouterLink :to="{ name: ROUTE_NAMES.brands }"><Tag :size="21" /><span>Brands</span></RouterLink>
-    <RouterLink :to="{ name: ROUTE_NAMES.wishlist }"><Heart :size="21" /><span>Wishlist</span></RouterLink>
-    <RouterLink :to="{ name: ROUTE_NAMES.account }"><UserRound :size="21" /><span>My</span></RouterLink>
+    <button type="button" @click="emit('open-navigation')">
+      <Search :size="21" /><span>Category</span>
+    </button>
+    <RouterLink :to="{ name: ROUTE_NAMES.brands }"
+      ><Tag :size="21" /><span>Brands</span></RouterLink
+    >
+    <RouterLink :to="{ name: ROUTE_NAMES.wishlist }"
+      ><Heart :size="21" /><span>Wishlist</span></RouterLink
+    >
+    <RouterLink :to="{ name: ROUTE_NAMES.account }"
+      ><UserRound :size="21" /><span>My</span></RouterLink
+    >
   </nav>
 </template>
 
@@ -54,6 +62,8 @@ const emit = defineEmits<{
 }
 
 @media (min-width: 64rem) {
-  .mobile-bottom-navigation { display: none; }
+  .mobile-bottom-navigation {
+    display: none;
+  }
 }
 </style>

@@ -3,8 +3,8 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="site-layout site-layout--empty">
-    <main id="main-content" class="site-layout__main">
+  <div class="bg-canvas flex min-h-screen flex-col">
+    <main id="main-content" class="grid min-h-0 flex-1 place-items-center">
       <RouterView />
     </main>
   </div>

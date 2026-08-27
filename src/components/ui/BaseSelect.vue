@@ -44,15 +44,18 @@ const updateValue = (event: Event) => {
 </script>
 
 <template>
-  <div class="select-field" :class="{ 'select-field--disabled': disabled }">
-    <label class="select-field__label" :for="selectId">
+  <div class="grid min-w-0 gap-2" :class="{ 'opacity-52': disabled }">
+    <label class="text-label leading-label font-bold" :for="selectId">
       {{ label }}
-      <span v-if="required" class="select-field__required" aria-hidden="true">*</span>
+      <span v-if="required" class="text-danger" aria-hidden="true">*</span>
     </label>
-    <div class="select-field__control" :class="{ 'select-field__control--invalid': error }">
+    <div
+      class="rounded-control border-border-strong bg-surface focus-within:border-focus focus-within:ring-focus relative border transition-[border-color,box-shadow] focus-within:ring-1"
+      :class="{ 'border-danger': error }"
+    >
       <select
         :id="selectId"
-        class="select-field__select"
+        class="text-text min-h-11 w-full appearance-none border-0 bg-transparent pr-10 pl-3 outline-0"
         :name="name"
         :value="modelValue"
         :required="required"
@@ -71,83 +74,19 @@ const updateValue = (event: Event) => {
           {{ option.label }}
         </option>
       </select>
-      <ChevronDown class="select-field__icon" :size="16" aria-hidden="true" />
+      <ChevronDown
+        class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2"
+        :size="16"
+        aria-hidden="true"
+      />
     </div>
     <p
       v-if="error || hint"
       :id="messageId"
-      class="select-field__message"
-      :class="{ 'select-field__message--error': error }"
+      class="text-caption leading-caption text-muted m-0"
+      :class="{ 'text-danger': error }"
     >
       {{ error ?? hint }}
     </p>
   </div>
 </template>
-
-<style scoped>
-.select-field {
-  display: grid;
-  gap: var(--ds-space-2);
-  min-width: 0;
-}
-
-.select-field__label {
-  font-size: var(--ds-type-label-size);
-  font-weight: 700;
-  line-height: var(--ds-type-label-line-height);
-}
-
-.select-field__required,
-.select-field__message--error {
-  color: var(--ds-color-danger);
-}
-
-.select-field__control {
-  position: relative;
-  border: 1px solid var(--ds-color-border-strong);
-  border-radius: var(--ds-radius-control);
-  background: var(--ds-color-surface);
-  transition:
-    border-color var(--ds-motion-fast) var(--ds-ease-standard),
-    box-shadow var(--ds-motion-fast) var(--ds-ease-standard);
-}
-
-.select-field__control:focus-within {
-  border-color: var(--ds-color-focus);
-  box-shadow: 0 0 0 1px var(--ds-color-focus);
-}
-
-.select-field__control--invalid {
-  border-color: var(--ds-color-danger);
-}
-
-.select-field__select {
-  width: 100%;
-  min-height: 2.75rem;
-  padding: 0 2.5rem 0 var(--ds-space-3);
-  border: 0;
-  outline: 0;
-  appearance: none;
-  color: var(--ds-color-text);
-  background: transparent;
-}
-
-.select-field__icon {
-  position: absolute;
-  top: 50%;
-  right: var(--ds-space-3);
-  pointer-events: none;
-  transform: translateY(-50%);
-}
-
-.select-field__message {
-  margin: 0;
-  color: var(--ds-color-muted);
-  font-size: var(--ds-type-caption-size);
-  line-height: var(--ds-type-caption-line-height);
-}
-
-.select-field--disabled {
-  opacity: 0.52;
-}
-</style>

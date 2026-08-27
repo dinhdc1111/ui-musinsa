@@ -28,6 +28,25 @@ const activeTab = computed(
 const tabId = (id: string) => `tab-${generatedId}-${id}`
 const panelId = `tabpanel-${generatedId}`
 
+const listClasses = computed(() => (props.variant === 'underline' ? 'border-b border-border' : ''))
+
+const tabClasses = (tab: TabItem) => {
+  const isActive = activeTab.value?.id === tab.id
+
+  if (props.variant === 'pill') {
+    return [
+      'rounded-pill',
+      isActive ? 'bg-accent text-accent-contrast' : 'text-muted hover:not-disabled:text-text',
+    ]
+  }
+
+  return [
+    isActive
+      ? "text-text after:absolute after:right-3 after:-bottom-px after:left-3 after:h-0.5 after:bg-accent after:content-['']"
+      : 'text-muted hover:not-disabled:text-text',
+  ]
+}
+
 const selectTab = (tab: TabItem) => {
   if (!tab.disabled) emit('update:modelValue', tab.id)
 }
@@ -57,10 +76,10 @@ const handleKeydown = (event: KeyboardEvent, currentTab: TabItem) => {
 </script>
 
 <template>
-  <div class="base-tabs">
+  <div class="min-w-0">
     <div
-      class="base-tabs__list"
-      :class="`base-tabs__list--${variant}`"
+      class="flex max-w-full [scrollbar-width:thin] gap-1 overflow-x-auto"
+      :class="listClasses"
       role="tablist"
       :aria-label="label"
     >
@@ -68,8 +87,8 @@ const handleKeydown = (event: KeyboardEvent, currentTab: TabItem) => {
         v-for="tab in tabs"
         :id="tabId(tab.id)"
         :key="tab.id"
-        class="base-tabs__tab"
-        :class="{ 'base-tabs__tab--active': activeTab?.id === tab.id }"
+        class="rounded-control text-label relative min-h-11 flex-none cursor-pointer border-0 bg-transparent px-4 font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+        :class="tabClasses(tab)"
         type="button"
         role="tab"
         :aria-selected="activeTab?.id === tab.id"
@@ -85,7 +104,7 @@ const handleKeydown = (event: KeyboardEvent, currentTab: TabItem) => {
     <div
       v-if="activeTab"
       :id="panelId"
-      class="base-tabs__panel"
+      class="pt-6 outline-offset-1"
       role="tabpanel"
       :aria-labelledby="tabId(activeTab.id)"
       tabindex="0"
@@ -94,75 +113,3 @@ const handleKeydown = (event: KeyboardEvent, currentTab: TabItem) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.base-tabs {
-  min-width: 0;
-}
-
-.base-tabs__list {
-  display: flex;
-  gap: var(--ds-space-1);
-  max-width: 100%;
-  overflow-x: auto;
-  scrollbar-width: thin;
-}
-
-.base-tabs__list--underline {
-  border-bottom: 1px solid var(--ds-color-border);
-}
-
-.base-tabs__tab {
-  position: relative;
-  flex: 0 0 auto;
-  min-height: 2.75rem;
-  padding: 0 var(--ds-space-4);
-  border: 0;
-  border-radius: var(--ds-radius-control);
-  color: var(--ds-color-muted);
-  background: transparent;
-  font-size: var(--ds-type-label-size);
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    color var(--ds-motion-fast) var(--ds-ease-standard),
-    background-color var(--ds-motion-fast) var(--ds-ease-standard);
-}
-
-.base-tabs__tab:hover:not(:disabled) {
-  color: var(--ds-color-text);
-}
-
-.base-tabs__list--underline .base-tabs__tab--active {
-  color: var(--ds-color-text);
-}
-
-.base-tabs__list--underline .base-tabs__tab--active::after {
-  position: absolute;
-  right: var(--ds-space-3);
-  bottom: -1px;
-  left: var(--ds-space-3);
-  height: 2px;
-  background: var(--ds-color-accent);
-  content: '';
-}
-
-.base-tabs__list--pill .base-tabs__tab {
-  border-radius: var(--ds-radius-pill);
-}
-
-.base-tabs__list--pill .base-tabs__tab--active {
-  color: var(--ds-color-accent-contrast);
-  background: var(--ds-color-accent);
-}
-
-.base-tabs__tab:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-.base-tabs__panel {
-  padding-top: var(--ds-space-6);
-  outline-offset: var(--ds-space-1);
-}
-</style>

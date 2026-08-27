@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import type { ButtonVariant, ControlSize } from '@/types/ui'
 
 interface Props {
@@ -22,6 +24,21 @@ const emit = defineEmits<{
   click: [event: MouseEvent]
 }>()
 
+const variantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-accent text-accent-contrast hover:not-disabled:bg-accent-hover',
+  secondary: 'border-border-strong bg-surface text-text hover:not-disabled:bg-surface-muted',
+  ghost: 'bg-transparent text-text hover:not-disabled:bg-surface-muted',
+  danger: 'bg-danger text-accent-contrast hover:not-disabled:bg-danger-hover',
+}
+
+const sizeClasses: Record<ControlSize, string> = {
+  sm: 'size-9',
+  md: 'size-11',
+  lg: 'size-13',
+}
+
+const buttonClasses = computed(() => [variantClasses[props.variant], sizeClasses[props.size]])
+
 const handleClick = (event: MouseEvent) => {
   if (!props.disabled && !props.loading) emit('click', event)
 }
@@ -29,8 +46,8 @@ const handleClick = (event: MouseEvent) => {
 
 <template>
   <button
-    class="icon-button"
-    :class="[`icon-button--${variant}`, `icon-button--${size}`]"
+    class="rounded-control inline-grid flex-none cursor-pointer place-items-center border border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-48"
+    :class="buttonClasses"
     :type="type"
     :aria-label="label"
     :title="label"
@@ -38,91 +55,11 @@ const handleClick = (event: MouseEvent) => {
     :aria-busy="loading || undefined"
     @click="handleClick"
   >
-    <span v-if="loading" class="icon-button__spinner" aria-hidden="true" />
+    <span
+      v-if="loading"
+      class="size-4 animate-spin rounded-full border-2 border-current border-r-transparent motion-reduce:animate-none"
+      aria-hidden="true"
+    />
     <span v-else aria-hidden="true"><slot /></span>
   </button>
 </template>
-
-<style scoped>
-.icon-button {
-  display: inline-grid;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid transparent;
-  border-radius: var(--ds-radius-control);
-  cursor: pointer;
-  transition:
-    color var(--ds-motion-fast) var(--ds-ease-standard),
-    background-color var(--ds-motion-fast) var(--ds-ease-standard),
-    border-color var(--ds-motion-fast) var(--ds-ease-standard),
-    opacity var(--ds-motion-fast) var(--ds-ease-standard);
-}
-
-.icon-button--sm {
-  width: 2.25rem;
-  height: 2.25rem;
-}
-
-.icon-button--md {
-  width: 2.75rem;
-  height: 2.75rem;
-}
-
-.icon-button--lg {
-  width: 3.25rem;
-  height: 3.25rem;
-}
-
-.icon-button--primary {
-  color: var(--ds-color-accent-contrast);
-  background: var(--ds-color-accent);
-}
-
-.icon-button--secondary {
-  color: var(--ds-color-text);
-  border-color: var(--ds-color-border-strong);
-  background: var(--ds-color-surface);
-}
-
-.icon-button--ghost {
-  color: var(--ds-color-text);
-  background: transparent;
-}
-
-.icon-button--danger {
-  color: var(--ds-color-accent-contrast);
-  background: var(--ds-color-danger);
-}
-
-.icon-button:hover:not(:disabled) {
-  background: var(--ds-color-surface-muted);
-}
-
-.icon-button--primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--ds-color-accent) 84%, white);
-}
-
-.icon-button--danger:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--ds-color-danger) 84%, black);
-}
-
-.icon-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.48;
-}
-
-.icon-button__spinner {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: icon-spin 700ms linear infinite;
-}
-
-@keyframes icon-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

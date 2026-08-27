@@ -34,6 +34,17 @@ const generatedId = useId()
 const titleId = `drawer-title-${generatedId}`
 const descriptionId = `drawer-description-${generatedId}`
 
+const sideClasses = {
+  left: 'left-0',
+  right: 'right-0',
+} as const
+
+const sizeClasses = {
+  sm: 'max-w-80',
+  md: 'max-w-md',
+  lg: 'max-w-[38rem]',
+} as const
+
 const requestClose = () => {
   emit('update:modelValue', false)
   emit('close')
@@ -54,11 +65,15 @@ const handleBackdrop = (event: MouseEvent) => {
 <template>
   <Teleport to="body">
     <Transition :name="`drawer-${side}`">
-      <div v-if="modelValue" class="drawer-backdrop" @mousedown="handleBackdrop">
+      <div
+        v-if="modelValue"
+        class="bg-overlay fixed inset-0 z-[var(--ds-z-drawer)]"
+        @mousedown="handleBackdrop"
+      >
         <aside
           ref="panelRef"
-          class="drawer-panel"
-          :class="[`drawer-panel--${side}`, `drawer-panel--${size}`]"
+          class="drawer-panel bg-surface shadow-overlay absolute inset-y-0 flex w-full flex-col outline-none"
+          :class="[sideClasses[side], sizeClasses[size]]"
           role="dialog"
           aria-modal="true"
           :aria-labelledby="titleId"
@@ -66,10 +81,16 @@ const handleBackdrop = (event: MouseEvent) => {
           tabindex="-1"
           @keydown="onKeydown"
         >
-          <header class="drawer-panel__header">
+          <header class="border-border flex items-start justify-between gap-4 border-b p-6 md:p-8">
             <div>
-              <h2 :id="titleId" class="drawer-panel__title">{{ title }}</h2>
-              <p v-if="description" :id="descriptionId" class="drawer-panel__description">
+              <h2 :id="titleId" class="font-display m-0 text-[1.75rem] leading-none font-medium">
+                {{ title }}
+              </h2>
+              <p
+                v-if="description"
+                :id="descriptionId"
+                class="text-label text-muted mt-2 leading-6"
+              >
                 {{ description }}
               </p>
             </div>
@@ -77,8 +98,13 @@ const handleBackdrop = (event: MouseEvent) => {
               <X :size="18" />
             </BaseIconButton>
           </header>
-          <div class="drawer-panel__body"><slot /></div>
-          <footer v-if="$slots.footer" class="drawer-panel__footer"><slot name="footer" /></footer>
+          <div class="leading-body flex-1 overflow-auto p-6 md:p-8"><slot /></div>
+          <footer
+            v-if="$slots.footer"
+            class="border-border flex flex-wrap gap-3 border-t p-6 md:p-8"
+          >
+            <slot name="footer" />
+          </footer>
         </aside>
       </div>
     </Transition>
@@ -86,87 +112,7 @@ const handleBackdrop = (event: MouseEvent) => {
 </template>
 
 <style scoped>
-.drawer-backdrop {
-  position: fixed;
-  z-index: var(--ds-z-drawer);
-  inset: 0;
-  background: var(--ds-color-overlay);
-}
-
-.drawer-panel {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  width: min(100%, var(--drawer-width));
-  outline: none;
-  background: var(--ds-color-surface);
-  box-shadow: var(--ds-shadow-overlay);
-}
-
-.drawer-panel--left {
-  left: 0;
-}
-
-.drawer-panel--right {
-  right: 0;
-}
-
-.drawer-panel--sm {
-  --drawer-width: 20rem;
-}
-
-.drawer-panel--md {
-  --drawer-width: 28rem;
-}
-
-.drawer-panel--lg {
-  --drawer-width: 38rem;
-}
-
-.drawer-panel__header,
-.drawer-panel__body,
-.drawer-panel__footer {
-  padding: var(--ds-space-6);
-}
-
-.drawer-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--ds-space-4);
-  border-bottom: 1px solid var(--ds-color-border);
-}
-
-.drawer-panel__title {
-  margin: 0;
-  font-family: var(--ds-font-display);
-  font-size: 1.75rem;
-  font-weight: 500;
-  line-height: 1;
-}
-
-.drawer-panel__description {
-  margin: var(--ds-space-2) 0 0;
-  color: var(--ds-color-muted);
-  font-size: var(--ds-type-label-size);
-  line-height: 1.5;
-}
-
-.drawer-panel__body {
-  flex: 1;
-  overflow: auto;
-  line-height: var(--ds-type-body-line-height);
-}
-
-.drawer-panel__footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--ds-space-3);
-  border-top: 1px solid var(--ds-color-border);
-}
-
+/* Vue transition class contracts need stable selectors across both drawer directions. */
 .drawer-left-enter-active,
 .drawer-left-leave-active,
 .drawer-right-enter-active,
@@ -196,13 +142,5 @@ const handleBackdrop = (event: MouseEvent) => {
 .drawer-right-enter-from .drawer-panel,
 .drawer-right-leave-to .drawer-panel {
   transform: translateX(100%);
-}
-
-@media (min-width: 48rem) {
-  .drawer-panel__header,
-  .drawer-panel__body,
-  .drawer-panel__footer {
-    padding: var(--ds-space-8);
-  }
 }
 </style>

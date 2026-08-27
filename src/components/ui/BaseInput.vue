@@ -47,19 +47,26 @@ const updateValue = (event: Event) => {
 </script>
 
 <template>
-  <div class="field" :class="{ 'field--disabled': disabled }">
-    <label class="field__label" :for="inputId">
+  <div class="grid min-w-0 gap-2" :class="{ 'opacity-52': disabled }">
+    <label class="text-label leading-label text-text font-bold" :for="inputId">
       {{ label }}
-      <span v-if="required" class="field__required" aria-hidden="true">*</span>
+      <span v-if="required" class="text-danger" aria-hidden="true">*</span>
     </label>
-    <div class="field__control" :class="{ 'field__control--invalid': error }">
-      <span v-if="$slots.leading" class="field__affix" aria-hidden="true">
+    <div
+      class="rounded-control border-border-strong bg-surface focus-within:border-focus focus-within:ring-focus flex min-h-11 items-center border transition-[border-color,box-shadow] focus-within:ring-1"
+      :class="{ 'border-danger': error }"
+    >
+      <span
+        v-if="$slots.leading"
+        class="text-muted grid flex-none place-items-center px-3"
+        aria-hidden="true"
+      >
         <slot name="leading" />
       </span>
       <input
         v-bind="$attrs"
         :id="inputId"
-        class="field__input"
+        class="text-text placeholder:text-muted min-h-[2.625rem] w-full min-w-0 border-0 bg-transparent px-3 outline-0"
         :name="name"
         :type="type"
         :value="modelValue"
@@ -73,92 +80,21 @@ const updateValue = (event: Event) => {
         @focus="emit('focus', $event)"
         @blur="emit('blur', $event)"
       />
-      <span v-if="$slots.trailing" class="field__affix" aria-hidden="true">
+      <span
+        v-if="$slots.trailing"
+        class="text-muted grid flex-none place-items-center px-3"
+        aria-hidden="true"
+      >
         <slot name="trailing" />
       </span>
     </div>
     <p
       v-if="error || hint"
       :id="messageId"
-      class="field__message"
-      :class="{ 'field__message--error': error }"
+      class="text-caption leading-caption text-muted m-0"
+      :class="{ 'text-danger': error }"
     >
       {{ error ?? hint }}
     </p>
   </div>
 </template>
-
-<style scoped>
-.field {
-  display: grid;
-  gap: var(--ds-space-2);
-  min-width: 0;
-}
-
-.field__label {
-  color: var(--ds-color-text);
-  font-size: var(--ds-type-label-size);
-  font-weight: 700;
-  line-height: var(--ds-type-label-line-height);
-}
-
-.field__required,
-.field__message--error {
-  color: var(--ds-color-danger);
-}
-
-.field__control {
-  display: flex;
-  align-items: center;
-  min-height: 2.75rem;
-  border: 1px solid var(--ds-color-border-strong);
-  border-radius: var(--ds-radius-control);
-  background: var(--ds-color-surface);
-  transition:
-    border-color var(--ds-motion-fast) var(--ds-ease-standard),
-    box-shadow var(--ds-motion-fast) var(--ds-ease-standard);
-}
-
-.field__control:focus-within {
-  border-color: var(--ds-color-focus);
-  box-shadow: 0 0 0 1px var(--ds-color-focus);
-}
-
-.field__control--invalid {
-  border-color: var(--ds-color-danger);
-}
-
-.field__input {
-  width: 100%;
-  min-width: 0;
-  min-height: 2.625rem;
-  padding: 0 var(--ds-space-3);
-  border: 0;
-  outline: 0;
-  color: var(--ds-color-text);
-  background: transparent;
-}
-
-.field__input::placeholder {
-  color: var(--ds-color-muted);
-}
-
-.field__affix {
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  padding: 0 var(--ds-space-3);
-  color: var(--ds-color-muted);
-}
-
-.field__message {
-  margin: 0;
-  color: var(--ds-color-muted);
-  font-size: var(--ds-type-caption-size);
-  line-height: var(--ds-type-caption-line-height);
-}
-
-.field--disabled {
-  opacity: 0.52;
-}
-</style>

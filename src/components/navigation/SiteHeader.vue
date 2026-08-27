@@ -48,70 +48,70 @@ const submitSearch = () => {
         <SiteWordmark class="site-header__compact-wordmark" />
 
         <nav class="site-header__compact-actions" aria-label="Quick actions">
-        <RouterLink
-          class="site-header__icon-link site-header__cart-link"
-          :to="{ name: ROUTE_NAMES.cart }"
-          aria-label="Cart"
-          title="Cart"
-        >
-          <ShoppingBag :size="20" aria-hidden="true" />
-          <span class="site-header__cart-count" aria-hidden="true">0</span>
-        </RouterLink>
+          <RouterLink
+            class="site-header__icon-link site-header__cart-link"
+            :to="{ name: ROUTE_NAMES.cart }"
+            aria-label="Cart"
+            title="Cart"
+          >
+            <ShoppingBag :size="20" aria-hidden="true" />
+            <span class="site-header__cart-count" aria-hidden="true">0</span>
+          </RouterLink>
         </nav>
       </div>
 
       <div class="site-header__desktop site-header__container">
-      <form class="site-header__search" role="search" @submit.prevent="submitSearch">
-        <Search class="site-header__search-icon" :size="18" aria-hidden="true" />
-        <label class="site-header__visually-hidden" for="global-search">Search products</label>
-        <input
-          id="global-search"
-          v-model="searchQuery"
-          name="q"
-          type="search"
-          placeholder="Search"
-          autocomplete="off"
-        />
-      </form>
+        <form class="site-header__search" role="search" @submit.prevent="submitSearch">
+          <Search class="site-header__search-icon" :size="18" aria-hidden="true" />
+          <label class="site-header__visually-hidden" for="global-search">Search products</label>
+          <input
+            id="global-search"
+            v-model="searchQuery"
+            name="q"
+            type="search"
+            placeholder="Search"
+            autocomplete="off"
+          />
+        </form>
 
-      <SiteWordmark />
+        <SiteWordmark />
 
-      <nav class="site-header__desktop-actions" aria-label="Account and shopping">
-        <RouterLink
-          class="site-header__locale"
-          :to="{ name: ROUTE_NAMES.home }"
-          aria-label="Country and region: Vietnam"
-          title="Country and region"
-        >
-          <Globe :size="22" aria-hidden="true" />
-          <span>Vietnam</span>
-        </RouterLink>
-        <RouterLink
-          class="site-header__icon-link"
-          :to="{ name: ROUTE_NAMES.wishlist }"
-          aria-label="Wishlist"
-          title="Wishlist"
-        >
-          <Heart :size="23" aria-hidden="true" />
-        </RouterLink>
-        <RouterLink
-          class="site-header__icon-link site-header__cart-link"
-          :to="{ name: ROUTE_NAMES.cart }"
-          aria-label="Cart, 0 items"
-          title="Cart"
-        >
-          <ShoppingBag :size="23" aria-hidden="true" />
-          <span class="site-header__cart-count" aria-hidden="true">0</span>
-        </RouterLink>
-        <RouterLink
-          class="site-header__icon-link"
-          :to="{ name: ROUTE_NAMES.account }"
-          aria-label="Account"
-          title="Account"
-        >
-          <UserRound :size="23" aria-hidden="true" />
-        </RouterLink>
-      </nav>
+        <nav class="site-header__desktop-actions" aria-label="Account and shopping">
+          <RouterLink
+            class="site-header__locale"
+            :to="{ name: ROUTE_NAMES.home }"
+            aria-label="Country and region: Vietnam"
+            title="Country and region"
+          >
+            <Globe :size="22" aria-hidden="true" />
+            <span>Vietnam</span>
+          </RouterLink>
+          <RouterLink
+            class="site-header__icon-link"
+            :to="{ name: ROUTE_NAMES.wishlist }"
+            aria-label="Wishlist"
+            title="Wishlist"
+          >
+            <Heart :size="23" aria-hidden="true" />
+          </RouterLink>
+          <RouterLink
+            class="site-header__icon-link site-header__cart-link"
+            :to="{ name: ROUTE_NAMES.cart }"
+            aria-label="Cart, 0 items"
+            title="Cart"
+          >
+            <ShoppingBag :size="23" aria-hidden="true" />
+            <span class="site-header__cart-count" aria-hidden="true">0</span>
+          </RouterLink>
+          <RouterLink
+            class="site-header__icon-link"
+            :to="{ name: ROUTE_NAMES.account }"
+            aria-label="Account"
+            title="Account"
+          >
+            <UserRound :size="23" aria-hidden="true" />
+          </RouterLink>
+        </nav>
       </div>
 
       <AnnouncementBar class="site-header__mobile-announcement" />

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import type { ButtonVariant, ControlSize } from '@/types/ui'
 
 interface Props {
@@ -23,6 +25,25 @@ const emit = defineEmits<{
   click: [event: MouseEvent]
 }>()
 
+const variantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-accent text-accent-contrast hover:not-disabled:bg-accent-hover',
+  secondary: 'border-border-strong bg-surface text-text hover:not-disabled:bg-surface-muted',
+  ghost: 'bg-transparent text-text hover:not-disabled:bg-surface-muted',
+  danger: 'bg-danger text-accent-contrast hover:not-disabled:bg-danger-hover',
+}
+
+const sizeClasses: Record<ControlSize, string> = {
+  sm: 'min-h-9 px-3',
+  md: 'min-h-11 px-5',
+  lg: 'min-h-13 px-6',
+}
+
+const buttonClasses = computed(() => [
+  variantClasses[props.variant],
+  sizeClasses[props.size],
+  props.fullWidth && 'w-full',
+])
+
 const handleClick = (event: MouseEvent) => {
   if (!props.disabled && !props.loading) emit('click', event)
 }
@@ -30,123 +51,20 @@ const handleClick = (event: MouseEvent) => {
 
 <template>
   <button
-    class="base-button"
-    :class="[`base-button--${variant}`, `base-button--${size}`, { 'base-button--full': fullWidth }]"
+    class="rounded-control text-label relative inline-flex cursor-pointer items-center justify-center gap-2 border border-transparent leading-none font-bold tracking-[0.01em] transition-colors disabled:cursor-not-allowed disabled:opacity-48"
+    :class="buttonClasses"
     :type="type"
     :disabled="disabled || loading"
     :aria-busy="loading || undefined"
     @click="handleClick"
   >
-    <span v-if="loading" class="base-button__spinner" aria-hidden="true" />
-    <span class="base-button__content" :class="{ 'base-button__content--loading': loading }">
+    <span
+      v-if="loading"
+      class="absolute size-4 animate-spin rounded-full border-2 border-current border-r-transparent motion-reduce:animate-none"
+      aria-hidden="true"
+    />
+    <span class="inline-flex items-center justify-center gap-2" :class="{ invisible: loading }">
       <slot />
     </span>
   </button>
 </template>
-
-<style scoped>
-.base-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--ds-space-2);
-  border: 1px solid transparent;
-  border-radius: var(--ds-radius-control);
-  font-size: var(--ds-type-label-size);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    color var(--ds-motion-fast) var(--ds-ease-standard),
-    background-color var(--ds-motion-fast) var(--ds-ease-standard),
-    border-color var(--ds-motion-fast) var(--ds-ease-standard),
-    opacity var(--ds-motion-fast) var(--ds-ease-standard);
-}
-
-.base-button--sm {
-  min-height: 2.25rem;
-  padding: 0 var(--ds-space-3);
-}
-
-.base-button--md {
-  min-height: 2.75rem;
-  padding: 0 var(--ds-space-5);
-}
-
-.base-button--lg {
-  min-height: 3.25rem;
-  padding: 0 var(--ds-space-6);
-}
-
-.base-button--primary {
-  color: var(--ds-color-accent-contrast);
-  background: var(--ds-color-accent);
-}
-
-.base-button--primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--ds-color-accent) 84%, white);
-}
-
-.base-button--secondary {
-  color: var(--ds-color-text);
-  border-color: var(--ds-color-border-strong);
-  background: var(--ds-color-surface);
-}
-
-.base-button--secondary:hover:not(:disabled),
-.base-button--ghost:hover:not(:disabled) {
-  background: var(--ds-color-surface-muted);
-}
-
-.base-button--ghost {
-  color: var(--ds-color-text);
-  background: transparent;
-}
-
-.base-button--danger {
-  color: var(--ds-color-accent-contrast);
-  background: var(--ds-color-danger);
-}
-
-.base-button--danger:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--ds-color-danger) 84%, black);
-}
-
-.base-button--full {
-  width: 100%;
-}
-
-.base-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.48;
-}
-
-.base-button__content {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--ds-space-2);
-}
-
-.base-button__content--loading {
-  visibility: hidden;
-}
-
-.base-button__spinner {
-  position: absolute;
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: button-spin 700ms linear infinite;
-}
-
-@keyframes button-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

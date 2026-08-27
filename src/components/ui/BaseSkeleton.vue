@@ -21,8 +21,12 @@ const skeletonStyle = computed(() => ({
 
 <template>
   <span
-    class="base-skeleton"
-    :class="`base-skeleton--${shape}`"
+    class="base-skeleton bg-surface-muted block overflow-hidden"
+    :class="{
+      'rounded-control': shape === 'rectangle',
+      'rounded-pill': shape === 'text',
+      'rounded-full': shape === 'circle',
+    }"
     :style="skeletonStyle"
     aria-hidden="true"
   />
@@ -30,12 +34,8 @@ const skeletonStyle = computed(() => ({
 
 <style scoped>
 .base-skeleton {
-  display: block;
   width: var(--skeleton-width);
   height: var(--skeleton-height);
-  overflow: hidden;
-  border-radius: var(--ds-radius-control);
-  background: var(--ds-color-surface-muted);
 }
 
 .base-skeleton::after {
@@ -51,14 +51,6 @@ const skeletonStyle = computed(() => ({
   content: '';
   transform: translateX(-100%);
   animation: skeleton-shimmer 1.4s var(--ds-ease-standard) infinite;
-}
-
-.base-skeleton--text {
-  border-radius: var(--ds-radius-pill);
-}
-
-.base-skeleton--circle {
-  border-radius: 50%;
 }
 
 @keyframes skeleton-shimmer {

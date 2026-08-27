@@ -97,11 +97,11 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'products/:slug',
         name: ROUTE_NAMES.product,
-        component: plannedPage,
+        component: () => import('@/pages/ProductDetailPage.vue'),
         meta: {
           layout: 'default',
           title: 'Product detail',
-          description: 'Product gallery and option interactions are planned for Phase 7.',
+          description: 'Product gallery, product information, options, and purchase actions.',
           implementationPhase: 7,
         },
       },

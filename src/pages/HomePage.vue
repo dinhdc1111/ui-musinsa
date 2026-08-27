@@ -705,16 +705,25 @@ const saleProducts = homeProducts.slice(2, 14)
 .brand-shops__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2.5rem;
 }
 
 .brand-shops__grid a {
-  min-height: 3rem;
+  display: flex;
+  min-height: 4.5625rem;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
-  border-bottom: 1px solid #ececec;
-  color: #333;
-  font-size: 0.75rem;
+  border-bottom: 1px solid #e1e4e8;
+  color: #171b24;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
   text-align: center;
   text-decoration: none;
+}
+
+.brand-shops__grid a:nth-last-child(-n + 2) {
+  border-bottom: 0;
 }
 
 @media (max-width: 63.999rem) {
@@ -875,6 +884,18 @@ const saleProducts = homeProducts.slice(2, 14)
 
   .brand-shops__grid {
     grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .brand-shops__grid a {
+    min-height: 3.5rem;
+    border-bottom: 1px solid #e1e4e8;
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+
+  .brand-shops__grid a:last-child {
+    border-bottom: 0;
   }
 }
 
