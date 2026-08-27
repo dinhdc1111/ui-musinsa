@@ -16,8 +16,13 @@ import {
   Truck,
   // X,
 } from '@lucide/vue'
-import { computed, ref, type Component } from 'vue'
+import { A11y, Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import type { Swiper as SwiperInstance } from 'swiper'
+import { ref, type Component } from 'vue'
 import { RouterLink } from 'vue-router'
+
+import 'swiper/css'
 
 import HomeProductCard from '@/components/home/HomeProductCard.vue'
 import HomeProductRail from '@/components/home/HomeProductRail.vue'
@@ -30,15 +35,46 @@ import {
 } from '@/data/mock/home'
 
 const heroIndex = ref(0)
+const heroSwiper = ref<SwiperInstance>()
 const selectedFilter = ref('All')
 // const showWelcomeOffer = ref(true)
 
-const visibleCampaigns = computed(() =>
-  heroCampaigns.map((_, index) => heroCampaigns[(heroIndex.value + index) % heroCampaigns.length]!),
-)
+const heroModules = [Autoplay, A11y]
+const reduceHeroMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const heroAutoplay = reduceHeroMotion
+  ? false
+  : {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    }
 
-const moveHero = (direction: number) => {
-  heroIndex.value = (heroIndex.value + direction + heroCampaigns.length) % heroCampaigns.length
+const navigateHero = (direction: number) => {
+  if (direction < 0) heroSwiper.value?.slidePrev()
+  else heroSwiper.value?.slideNext()
+}
+
+const handleHeroFocusIn = () => {
+  heroSwiper.value?.autoplay?.pause()
+}
+
+const handleHeroFocusOut = (event: FocusEvent) => {
+  const nextTarget = event.relatedTarget
+  const currentTarget = event.currentTarget
+
+  if (currentTarget instanceof HTMLElement && nextTarget instanceof Node) {
+    if (currentTarget.contains(nextTarget)) return
+  }
+
+  heroSwiper.value?.autoplay?.resume()
+}
+
+const handleHeroSwiper = (swiper: SwiperInstance) => {
+  heroSwiper.value = swiper
+}
+
+const handleHeroIndexChange = (swiper: SwiperInstance) => {
+  heroIndex.value = swiper.realIndex
 }
 
 const utilityShortcuts = [
@@ -74,31 +110,57 @@ const saleProducts = homeProducts.slice(2, 14)
 
 <template>
   <div class="home-page">
-    <section class="home-hero" aria-label="Featured campaigns">
-      <div class="home-hero__grid">
-        <RouterLink
-          v-for="(campaign, index) in visibleCampaigns"
-          :key="campaign.id"
-          class="home-hero__card"
-          :class="`home-hero__card--${index + 1}`"
-          :to="campaign.to"
-        >
-          <img :src="campaign.image" :alt="campaign.title" />
-          <span class="home-hero__shade" />
-          <span class="home-hero__copy">
-            <strong>{{ campaign.title }}</strong>
-            <span>{{ campaign.subtitle }}</span>
-          </span>
-        </RouterLink>
-      </div>
+    <section
+      class="home-hero"
+      aria-label="Featured campaigns"
+      aria-roledescription="carousel"
+      @focusin="handleHeroFocusIn"
+      @focusout="handleHeroFocusOut"
+    >
+      <Swiper
+        class="home-hero__carousel"
+        :modules="heroModules"
+        :slides-per-view="1"
+        :space-between="8"
+        :speed="650"
+        :loop="true"
+        :autoplay="heroAutoplay"
+        :breakpoints="{ 1024: { slidesPerView: 3 } }"
+        :a11y="{ enabled: true }"
+        @swiper="handleHeroSwiper"
+        @real-index-change="handleHeroIndexChange"
+      >
+        <SwiperSlide v-for="campaign in heroCampaigns" :key="campaign.id">
+          <RouterLink class="home-hero__card" :to="campaign.to">
+            <img
+              :src="campaign.image"
+              :alt="campaign.title"
+              :style="campaign.position ? { objectPosition: campaign.position } : undefined"
+            />
+            <span class="home-hero__shade" />
+            <span class="home-hero__copy">
+              <strong>{{ campaign.title }}</strong>
+              <span>{{ campaign.subtitle }}</span>
+            </span>
+          </RouterLink>
+        </SwiperSlide>
+      </Swiper>
 
-      <button class="home-hero__arrow home-hero__arrow--left" type="button" @click="moveHero(-1)">
+      <button
+        class="home-hero__arrow home-hero__arrow--left"
+        type="button"
+        aria-label="Previous campaign"
+        @click="navigateHero(-1)"
+      >
         <ChevronLeft :size="22" aria-hidden="true" />
-        <span class="home-page__sr-only">Previous campaign</span>
       </button>
-      <button class="home-hero__arrow home-hero__arrow--right" type="button" @click="moveHero(1)">
+      <button
+        class="home-hero__arrow home-hero__arrow--right"
+        type="button"
+        aria-label="Next campaign"
+        @click="navigateHero(1)"
+      >
         <ChevronRight :size="22" aria-hidden="true" />
-        <span class="home-page__sr-only">Next campaign</span>
       </button>
 
       <span class="home-hero__mobile-counter"
@@ -259,10 +321,22 @@ const saleProducts = homeProducts.slice(2, 14)
   position: relative;
 }
 
-.home-hero__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
+.home-hero__carousel {
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.home-hero__carousel :deep(.swiper-wrapper) {
+  align-items: stretch;
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+.home-hero__carousel :deep(.swiper-slide) {
+  height: auto;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .home-hero__card {
@@ -367,27 +441,45 @@ const saleProducts = homeProducts.slice(2, 14)
 }
 
 .campaign-shortcuts__tiles a {
+  position: relative;
   display: flex;
   width: 8.75rem;
   min-width: 8.75rem;
   height: 3.75rem;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
-  padding: 0.35rem;
+  padding: 0;
   border: 1px solid #d6d6d6;
+  border-radius: 0.25rem;
   color: #111;
-  background: #f0f0f0;
+  background: #e9e9e9;
   font-size: 0.6875rem;
   text-align: center;
   text-decoration: none;
 }
 
 .campaign-shortcuts__tiles img {
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.35rem;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.campaign-shortcuts__tiles span {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 1.25rem 0.375rem 0.375rem;
+  background: linear-gradient(180deg, transparent, rgb(255 255 255 / 90%));
+  line-height: 0.875rem;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
 }
 
 .campaign-shortcuts__utilities {
@@ -403,6 +495,7 @@ const saleProducts = homeProducts.slice(2, 14)
   gap: 0.5rem;
   padding: 0.35rem 0.75rem;
   border: 1px solid #ddd;
+  border-radius: 0.25rem;
   color: #111;
   font-size: 0.75rem;
   text-decoration: none;
@@ -630,15 +723,8 @@ const saleProducts = homeProducts.slice(2, 14)
     overflow: hidden;
   }
 
-  .home-hero__grid {
-    display: grid;
-    overflow-x: auto;
-    grid-auto-columns: calc(100vw - 2rem);
-    grid-auto-flow: column;
-    grid-template-columns: none;
-    gap: 0.5rem;
+  .home-hero {
     padding-inline: 1rem;
-    scrollbar-width: none;
   }
 
   .home-hero__card {
@@ -660,7 +746,16 @@ const saleProducts = homeProducts.slice(2, 14)
   }
 
   .home-hero__arrow {
-    display: none;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .home-hero__arrow--left {
+    left: 0.25rem;
+  }
+
+  .home-hero__arrow--right {
+    right: 0.25rem;
   }
 
   .home-hero__mobile-counter {
@@ -692,7 +787,6 @@ const saleProducts = homeProducts.slice(2, 14)
     min-width: 8.75rem;
     height: 3.75rem;
     padding: 0;
-    border-radius: 0.125rem;
     font-size: 0.6875rem;
     line-height: 0.875rem;
   }
@@ -781,6 +875,12 @@ const saleProducts = homeProducts.slice(2, 14)
 
   .brand-shops__grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__carousel :deep(.swiper-wrapper) {
+    transition-duration: 1ms !important;
   }
 }
 </style>

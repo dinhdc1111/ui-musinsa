@@ -1,9 +1,22 @@
+import brandDayR3 from '@/assets/images/home/brandDayR3.jpg'
+import extra20Off from '@/assets/images/home/extra20Off.jpg'
+import firstOrderCoupon from '@/assets/images/home/firstOrderCoupon.jpg'
+import helinoxCollab from '@/assets/images/home/helinoxCollab.jpg'
+import kCelebPicks from '@/assets/images/home/kCelebPicks.jpg'
+import keithHaring from '@/assets/images/home/keithHaring.jpg'
+import kIdolPicks from '@/assets/images/home/kIdolPicks.jpg'
 import kStarsImage from '@/assets/images/home/k-stars.jpg'
 import kStylePicksImage from '@/assets/images/home/k-style-picks.jpg'
+import kStyleTourUpTo80 from '@/assets/images/home/kStyleTourUpTo80.jpg'
 import keithHaringImage from '@/assets/images/home/keith-haring-collab.jpg'
+import musinsaSpecial from '@/assets/images/home/musinsaSpecial.jpg'
+import nct127Collab from '@/assets/images/home/nct127Collab.jpg'
 import officeEditImage from '@/assets/images/home/office-edit.jpg'
+import seoulStandard from '@/assets/images/home/seoulStandard.jpg'
 import shoesImage from '@/assets/images/home/shoes.jpg'
+import signatureDeal from '@/assets/images/home/signatureDeal.jpg'
 import tankImage from '@/assets/images/home/tank.jpg'
+import theNewSeasonOfficeEdit from '@/assets/images/home/theNewSeasonOfficeEdit.jpg'
 import trendingPantsImage from '@/assets/images/home/trending-pants.jpg'
 
 export interface HomeCampaign {
@@ -49,21 +62,44 @@ export const heroCampaigns: readonly HomeCampaign[] = [
     image: shoesImage,
     to: '/promotions/welcome-guide',
   },
+  {
+    id: 'k-style-tour',
+    title: 'K-Style Tour Picks',
+    subtitle: 'Discover the latest looks from Seoul',
+    image: kStylePicksImage,
+    to: '/promotions/k-style-tour',
+  },
+  {
+    id: 'keith-haring-collaboration',
+    title: 'Keith Haring Collaboration',
+    subtitle: 'Art meets everyday streetwear',
+    image: keithHaringImage,
+    to: '/promotions/keith-haring',
+  },
+  {
+    id: 'trending-pants-edit',
+    title: 'The Trending Pants Edit',
+    subtitle: 'The silhouettes defining this season',
+    image: trendingPantsImage,
+    to: '/promotions/trending-pants',
+    position: 'center 30%',
+  },
 ]
 
 export const campaignTiles = [
-  { id: 'coupon', label: 'First Order Coupon', image: shoesImage },
-  { id: 'tour', label: 'K-Style Tour: UP TO 80%', image: tankImage },
-  { id: 'helinox', label: 'Helinox Collab', image: kStylePicksImage },
-  { id: 'office', label: 'The Office Edit', image: officeEditImage },
-  { id: 'extra', label: 'Extra 20% Off', image: keithHaringImage },
-  { id: 'brand', label: 'Brand Day R3', image: trendingPantsImage },
-  { id: 'signature', label: 'Signature Deal', image: kStarsImage },
-  { id: 'haring', label: 'Keith Haring', image: keithHaringImage },
-  { id: 'celeb', label: 'K-Celeb Picks', image: kStylePicksImage },
-  { id: 'seoul', label: 'Seoul, Standard', image: trendingPantsImage },
-  { id: 'idol', label: 'K-Idol Picks', image: tankImage },
-  { id: 'special', label: 'MUSINSA SPECIAL', image: kStarsImage },
+  { id: 'coupon', label: 'First Order Coupon', image: firstOrderCoupon },
+  { id: 'tour', label: 'K-Style Tour: UP TO 80%', image: kStyleTourUpTo80 },
+  { id: 'office', label: 'The New Season Office Edit', image: theNewSeasonOfficeEdit },
+  { id: 'nct-127', label: 'NCT 127 Collab', image: nct127Collab },
+  { id: 'helinox', label: 'Helinox Collab', image: helinoxCollab },
+  { id: 'extra', label: 'Extra 20% Off', image: extra20Off },
+  { id: 'brand', label: 'Brand Day R3', image: brandDayR3 },
+  { id: 'signature', label: 'Signature Deal', image: signatureDeal },
+  { id: 'haring', label: 'Keith Haring', image: keithHaring },
+  { id: 'celeb', label: 'K-Celeb Picks', image: kCelebPicks },
+  { id: 'seoul', label: 'Seoul, Standard', image: seoulStandard },
+  { id: 'idol', label: 'K-Idol Picks', image: kIdolPicks },
+  { id: 'special', label: 'MUSINSA SPECIAL', image: musinsaSpecial },
 ] as const
 
 export const hotTopics = [
