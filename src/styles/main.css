@@ -11,12 +11,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   min-width: 320px;
   color-scheme: light;
@@ -35,24 +29,6 @@ body {
   body {
     padding-bottom: 3.125rem;
   }
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-img,
-picture,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: inherit;
 }
 
 :focus-visible {

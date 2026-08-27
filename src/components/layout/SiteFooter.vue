@@ -1,203 +1,112 @@
 <script setup lang="ts">
-import { Camera, ChevronDown, Smartphone } from '@lucide/vue'
+import { ChevronDown } from '@lucide/vue'
 import { RouterLink } from 'vue-router'
 
 const currentYear = new Date().getFullYear()
 </script>
 
 <template>
-  <footer id="site-footer" class="site-footer">
-    <div class="site-footer__content">
-      <nav class="site-footer__legal-links" aria-label="Company information">
-        <RouterLink to="/brands">About MUSINSA</RouterLink>
-        <span>Terms &amp; Conditions</span>
-        <span>Privacy Policy</span>
+  <footer id="site-footer" class="border-border-soft bg-surface text-text border-t">
+    <div class="max-w-content sm:px-page-gutter mx-auto w-full px-4 pt-8 pb-7 lg:px-3.5">
+      <nav
+        class="text-muted flex flex-wrap items-center gap-x-12 gap-y-3 text-xs"
+        aria-label="Company information"
+      >
+        <RouterLink class="hover:text-text no-underline" to="/brands">About MUSINSA</RouterLink>
+        <a class="hover:text-text no-underline" href="#site-footer">Terms &amp; Conditions</a>
+        <a class="hover:text-text font-bold no-underline" href="#site-footer">Privacy Policy</a>
       </nav>
 
-      <div class="site-footer__quick-actions">
-        <button type="button">FAQ</button>
-        <button type="button">NOTICE</button>
+      <div class="mt-7 grid w-full max-w-[30.25rem] grid-cols-2 gap-2">
+        <button
+          class="border-border-strong bg-surface hover:bg-surface-muted min-h-10 rounded-[0.2rem] border text-sm font-bold transition-colors"
+          type="button"
+        >
+          FAQ
+        </button>
+        <button
+          class="border-border-strong bg-surface hover:bg-surface-muted min-h-10 rounded-[0.2rem] border text-sm font-bold transition-colors"
+          type="button"
+        >
+          NOTICE
+        </button>
       </div>
 
-      <section class="site-footer__apps" aria-labelledby="download-app-title">
-        <h2 id="download-app-title">Download the MUSINSA app</h2>
-        <div>
-          <a href="#site-footer" aria-label="Download on the App Store">
-            <Smartphone :size="17" aria-hidden="true" />
-            <span><small>Download on the</small>App Store</span>
+      <section class="mt-12" aria-labelledby="download-app-title">
+        <h2 id="download-app-title" class="mb-3 text-lg leading-6 font-bold">
+          Download the MUSINSA app
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          <a
+            class="border-border-strong bg-surface text-text inline-flex min-h-10 min-w-[8.75rem] items-center gap-2 rounded-sm border px-2.5 py-1 no-underline"
+            href="#site-footer"
+            aria-label="Download on the App Store"
+          >
+            <svg class="size-6 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M17.05 12.54c.02-2.05 1.68-3.04 1.76-3.09a3.77 3.77 0 0 0-2.97-1.61c-1.25-.13-2.47.75-3.1.75-.65 0-1.62-.74-2.67-.72a3.93 3.93 0 0 0-3.31 2.02c-1.44 2.49-.37 6.15 1.01 8.16.69.98 1.5 2.08 2.55 2.04 1.03-.04 1.42-.66 2.67-.66 1.24 0 1.6.66 2.68.63 1.11-.02 1.81-.99 2.48-1.98a8.11 8.11 0 0 0 1.14-2.32 3.56 3.56 0 0 1-2.24-3.22ZM15.02 6.52a3.64 3.64 0 0 0 .83-2.61 3.7 3.7 0 0 0-2.4 1.24 3.5 3.5 0 0 0-.85 2.51 3.06 3.06 0 0 0 2.42-1.14Z"
+              />
+            </svg>
+            <span class="flex flex-col leading-none">
+              <small class="text-[0.5rem] font-normal">Download on the</small>
+              <strong class="text-base leading-4 font-semibold">App Store</strong>
+            </span>
           </a>
-          <a href="#site-footer" aria-label="Get it on Google Play">
-            <span class="site-footer__play-icon" aria-hidden="true">▶</span>
-            <span><small>GET IT ON</small>Google Play</span>
+          <a
+            class="border-border-strong bg-surface text-text inline-flex min-h-10 min-w-[8.75rem] items-center gap-2 rounded-sm border px-2.5 py-1 no-underline"
+            href="#site-footer"
+            aria-label="Get it on Google Play"
+          >
+            <svg class="size-6 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+              <path class="fill-green-500" d="M3.5 2.7 14 12 3.5 21.3Z" />
+              <path
+                class="fill-yellow-400"
+                d="m14 12 3.2-2.8 3.7 2.1c1 .55 1 1.35 0 1.9l-3.7 2.1-3.2-2.8Z"
+              />
+              <path class="fill-blue-500" d="m3.5 2.7 13.7 6.5L14 12Z" />
+              <path class="fill-red-500" d="M3.5 21.3 14 12l3.2 3.3Z" />
+            </svg>
+            <span class="flex flex-col leading-none">
+              <small class="text-[0.5rem] font-normal">GET IT ON</small>
+              <strong class="text-base leading-4 font-semibold">Google Play</strong>
+            </span>
           </a>
         </div>
       </section>
 
-      <a class="site-footer__social" href="#site-footer" aria-label="MUSINSA on Instagram">
-        <Camera :size="15" aria-hidden="true" />
+      <a
+        class="bg-accent mt-12 grid size-8 place-items-center rounded-full text-white transition-opacity hover:opacity-80"
+        href="#site-footer"
+        aria-label="MUSINSA on Instagram"
+      >
+        <svg class="size-4 fill-none stroke-current" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke-width="2" />
+          <circle cx="12" cy="12" r="4" stroke-width="2" />
+          <circle class="fill-current stroke-none" cx="17.5" cy="6.5" r="1" />
+        </svg>
       </a>
 
-      <details class="site-footer__company">
-        <summary>
-          More about MUSINSA Co., Ltd.
-          <ChevronDown :size="15" aria-hidden="true" />
+      <details class="group mt-7 text-xs">
+        <summary
+          class="inline-flex cursor-pointer list-none items-center gap-1.5 [&::-webkit-details-marker]:hidden"
+        >
+          Learn more about MUSINSA Co.,Ltd.
+          <ChevronDown
+            class="transition-transform group-open:rotate-180"
+            :size="15"
+            aria-hidden="true"
+          />
         </summary>
-        <p>© {{ currentYear }} MUSINSA Co., Ltd. All rights reserved.</p>
+        <p class="text-muted mt-2 text-[0.625rem] leading-4">
+          © {{ currentYear }} MUSINSA Co., Ltd. All rights reserved.
+        </p>
       </details>
 
-      <p class="site-footer__notice">
-        MUSINSA Co., Ltd. may not be the direct seller but only an intermediary for some products.
-        Product information and transaction conditions are provided by each seller.
+      <p class="text-muted/60 mt-7 max-w-full text-[0.625rem] leading-4">
+        MUSINSA Co.,Ltd may not be the direct seller but only an intermediary for some products. In
+        this case, MUSINSA has limited liability for products, information, and transactions. Please
+        check the product details page of each product.
       </p>
     </div>
   </footer>
 </template>
-
-<style scoped>
-.site-footer {
-  border-top: 1px solid #e5e5e5;
-  color: #20242c;
-  background: #f7f8f9;
-}
-
-.site-footer__content {
-  width: min(100%, var(--ds-container-content));
-  margin: 0 auto;
-  padding: 2.5rem var(--ds-space-page-gutter) 4rem;
-}
-
-.site-footer__legal-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  font-size: 0.6875rem;
-}
-
-.site-footer__legal-links a,
-.site-footer__legal-links span {
-  color: #6d727c;
-  text-decoration: none;
-}
-
-.site-footer__quick-actions {
-  display: grid;
-  max-width: 31rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
-  margin-top: 1.25rem;
-}
-
-.site-footer__quick-actions button {
-  min-height: 2.5rem;
-  border: 1px solid #8c929b;
-  border-radius: 0.2rem;
-  background: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.site-footer__apps {
-  margin-top: 2rem;
-}
-
-.site-footer__apps h2 {
-  margin: 0 0 0.75rem;
-  font-size: 0.8125rem;
-}
-
-.site-footer__apps > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.site-footer__apps a {
-  display: inline-flex;
-  min-height: 2.5rem;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.3rem 0.65rem;
-  border: 1px solid #a8adb5;
-  border-radius: 0.25rem;
-  color: #111;
-  background: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 0.8rem;
-  text-decoration: none;
-}
-
-.site-footer__apps a span {
-  display: flex;
-  flex-direction: column;
-}
-
-.site-footer__apps small {
-  font-size: 0.5rem;
-  font-weight: 400;
-}
-
-.site-footer__play-icon {
-  font-size: 1rem;
-}
-
-.site-footer__social {
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  margin-top: 2rem;
-  place-items: center;
-  border-radius: 50%;
-  color: #fff;
-  background: #111820;
-}
-
-.site-footer__company {
-  margin-top: 2rem;
-  font-size: 0.6875rem;
-}
-
-.site-footer__company summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  cursor: pointer;
-  list-style: none;
-}
-
-.site-footer__company p,
-.site-footer__notice {
-  color: #8a909a;
-  font-size: 0.625rem;
-  line-height: 1.5;
-}
-
-.site-footer__notice {
-  max-width: 42rem;
-  margin: 1.5rem 0 0;
-}
-
-@media (min-width: 64rem) {
-  .site-footer {
-    background: #fff;
-  }
-
-  .site-footer__content {
-    display: grid;
-    grid-template-columns: minmax(18rem, 1fr) minmax(18rem, 1fr);
-    column-gap: 5rem;
-    padding-inline: 0.8125rem;
-  }
-
-  .site-footer__quick-actions {
-    margin-top: 0;
-  }
-
-  .site-footer__apps,
-  .site-footer__social,
-  .site-footer__company,
-  .site-footer__notice {
-    grid-column: 1 / -1;
-  }
-}
-</style>
