@@ -1,5 +1,5 @@
 import { ROUTE_NAMES } from '@/constants/routes'
-import type { AnnouncementContent, NavigationItem } from '@/types/navigation'
+import type { NavigationItem } from '@/types/navigation'
 
 export const primaryNavigation: readonly NavigationItem[] = [
   { id: 'nav-category', label: 'Category', routeName: ROUTE_NAMES.products },
@@ -24,9 +24,3 @@ export const accountNavigation: readonly NavigationItem[] = [
   { id: 'nav-wishlist', label: 'Wishlist', routeName: ROUTE_NAMES.wishlist },
   { id: 'nav-cart', label: 'Cart', routeName: ROUTE_NAMES.cart },
 ]
-
-export const announcementContent = {
-  message: 'Official online store for leading Korean fashion brands',
-  actionLabel: '',
-  to: '/promotions/first-order',
-} as const satisfies AnnouncementContent

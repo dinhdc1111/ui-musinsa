@@ -295,7 +295,9 @@ const saleProducts = homeProducts.slice(2, 14)
           compact
         />
       </div>
-      <RouterLink class="home-section__outline-link" to="/sale">Shop Now</RouterLink>
+      <RouterLink class="home-section__outline-link rounded-[4px]" to="/sale">
+        Shop Now
+      </RouterLink>
     </section>
   </div>
 </template>

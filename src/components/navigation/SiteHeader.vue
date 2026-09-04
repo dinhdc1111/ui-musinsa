@@ -5,7 +5,6 @@ import { RouterLink, useRouter } from 'vue-router'
 
 import { ROUTE_NAMES } from '@/constants/routes'
 
-import AnnouncementBar from './AnnouncementBar.vue'
 import DesktopNavigation from './DesktopNavigation.vue'
 import SiteWordmark from './SiteWordmark.vue'
 
@@ -114,10 +113,8 @@ const submitSearch = () => {
         </nav>
       </div>
 
-      <AnnouncementBar class="site-header__mobile-announcement" />
       <DesktopNavigation />
     </div>
-    <AnnouncementBar class="site-header__desktop-announcement" />
   </header>
 </template>
 
@@ -273,10 +270,6 @@ const submitSearch = () => {
   display: none;
 }
 
-.site-header__desktop-announcement {
-  display: none;
-}
-
 .site-header__visually-hidden {
   position: absolute;
   width: 1px;
@@ -289,13 +282,8 @@ const submitSearch = () => {
 }
 
 @media (min-width: 64rem) {
-  .site-header__app-banner,
-  .site-header__mobile-announcement {
+  .site-header__app-banner {
     display: none;
-  }
-
-  .site-header__desktop-announcement {
-    display: block;
   }
 
   .site-header__container {

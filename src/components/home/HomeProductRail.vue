@@ -53,7 +53,7 @@ const scrollProducts = (direction: number) => {
       </button>
     </div>
     <RouterLink
-      class="border-border-strong text-text mx-auto mt-14 flex min-h-11 w-full max-w-32.5 items-center justify-center border text-base font-normal no-underline"
+      class="border-border-strong text-text mx-auto mt-14 flex min-h-11 w-full max-w-32.5 items-center justify-center rounded-[4px] border text-base font-normal no-underline"
       to="/products"
     >
       Shop Now

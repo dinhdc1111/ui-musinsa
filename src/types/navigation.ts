@@ -20,9 +20,3 @@ export interface FooterSection {
   title: string
   links: readonly FooterLink[]
 }
-
-export interface AnnouncementContent {
-  message: string
-  actionLabel: string
-  to: string
-}

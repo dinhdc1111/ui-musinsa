@@ -67,7 +67,7 @@ import { primaryNavigation } from '@/constants/navigation'
   color: var(--ds-color-text);
 }
 
-.desktop-navigation__link--active::after {
+.desktop-navigation__link:not(:first-child)::after {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -75,6 +75,14 @@ import { primaryNavigation } from '@/constants/navigation'
   height: 2px;
   background: var(--ds-color-accent);
   content: '';
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--ds-motion-fast) var(--ds-ease-standard);
+}
+
+.desktop-navigation__link:not(:first-child):hover::after,
+.desktop-navigation__link:not(:first-child).desktop-navigation__link--active::after {
+  transform: scaleX(1);
 }
 
 .desktop-navigation__label {
@@ -104,9 +112,9 @@ import { primaryNavigation } from '@/constants/navigation'
   top: 0.25rem;
   left: 50%;
   color: var(--ds-color-sale);
-  font-size: 0.6875rem;
-  font-weight: 400;
-  line-height: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
   text-transform: uppercase;
   transform: translateX(-50%);
 }

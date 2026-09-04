@@ -5,6 +5,8 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import EmptyLayout from '@/layouts/EmptyLayout.vue'
 import HomePage from '@/pages/HomePage.vue'
+import LoginPage from '@/pages/LoginPage.vue'
+import RegisterPage from '@/pages/RegisterPage.vue'
 
 const plannedPage = () => import('@/pages/RoutePlaceholderPage.vue')
 
@@ -206,7 +208,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: ROUTE_NAMES.login,
-        component: plannedPage,
+        component: LoginPage,
         meta: {
           layout: 'auth',
           title: 'Sign in',
@@ -227,7 +229,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: ROUTE_NAMES.register,
-        component: plannedPage,
+        component: RegisterPage,
         meta: {
           layout: 'auth',
           title: 'Create account',

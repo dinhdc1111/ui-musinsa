@@ -80,11 +80,7 @@ const updateValue = (event: Event) => {
         @focus="emit('focus', $event)"
         @blur="emit('blur', $event)"
       />
-      <span
-        v-if="$slots.trailing"
-        class="text-muted grid flex-none place-items-center px-3"
-        aria-hidden="true"
-      >
+      <span v-if="$slots.trailing" class="text-muted grid flex-none place-items-center px-3">
         <slot name="trailing" />
       </span>
     </div>
