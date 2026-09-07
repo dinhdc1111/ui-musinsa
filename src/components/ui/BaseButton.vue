@@ -35,7 +35,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 const sizeClasses: Record<ControlSize, string> = {
   sm: 'min-h-9 px-3',
   md: 'min-h-11 px-5',
-  lg: 'min-h-13 px-6',
+  lg: 'min-h-12 px-6',
 }
 
 const buttonClasses = computed(() => [
@@ -51,7 +51,7 @@ const handleClick = (event: MouseEvent) => {
 
 <template>
   <button
-    class="rounded-control text-label relative inline-flex cursor-pointer items-center justify-center gap-2 border border-transparent leading-none font-bold tracking-[0.01em] transition-colors disabled:cursor-not-allowed disabled:opacity-48"
+    class="text-label focus-visible:ring-focus relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-transparent leading-none font-bold tracking-[0.01em] transition-[color,background-color,border-color,box-shadow,transform] duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 active:not-disabled:translate-y-px disabled:cursor-not-allowed disabled:opacity-48"
     :class="buttonClasses"
     :type="type"
     :disabled="disabled || loading"

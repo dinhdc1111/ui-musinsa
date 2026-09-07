@@ -8,6 +8,7 @@ type InputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url'
 interface Props {
   modelValue: string
   label: string
+  variant?: 'default' | 'editorial'
   id?: string
   name?: string
   type?: InputType
@@ -22,6 +23,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   id: undefined,
   name: undefined,
+  variant: 'default',
   type: 'text',
   placeholder: undefined,
   autocomplete: undefined,
@@ -48,13 +50,18 @@ const updateValue = (event: Event) => {
 
 <template>
   <div class="grid min-w-0 gap-2" :class="{ 'opacity-52': disabled }">
-    <label class="text-label leading-label text-text font-bold" :for="inputId">
+    <label class="text-text text-[0.8125rem] leading-5 font-bold" :for="inputId">
       {{ label }}
       <span v-if="required" class="text-danger" aria-hidden="true">*</span>
     </label>
     <div
-      class="rounded-control border-border-strong bg-surface focus-within:border-focus focus-within:ring-focus flex min-h-11 items-center border transition-[border-color,box-shadow] focus-within:ring-1"
-      :class="{ 'border-danger': error }"
+      class="flex min-h-12 items-center transition-[border-color,box-shadow,background-color] duration-150"
+      :class="[
+        variant === 'editorial'
+          ? 'border-border-strong focus-within:border-text border-0 border-b bg-transparent focus-within:shadow-[0_1px_0_0_var(--ds-color-text)]'
+          : 'border-border-strong bg-surface focus-within:border-focus focus-within:ring-focus rounded-md border focus-within:ring-1',
+        error && 'border-danger bg-danger-muted/20',
+      ]"
     >
       <span
         v-if="$slots.leading"
@@ -66,7 +73,7 @@ const updateValue = (event: Event) => {
       <input
         v-bind="$attrs"
         :id="inputId"
-        class="text-text placeholder:text-muted min-h-[2.625rem] w-full min-w-0 border-0 bg-transparent px-3 outline-0"
+        class="text-text placeholder:text-muted min-h-[2.875rem] w-full min-w-0 border-0 bg-transparent px-3 text-[0.9375rem] outline-0 disabled:cursor-not-allowed"
         :name="name"
         :type="type"
         :value="modelValue"
@@ -87,8 +94,9 @@ const updateValue = (event: Event) => {
     <p
       v-if="error || hint"
       :id="messageId"
-      class="text-caption leading-caption text-muted m-0"
+      class="text-muted m-0 text-[0.8125rem] leading-[1.45]"
       :class="{ 'text-danger': error }"
+      :role="error ? 'alert' : undefined"
     >
       {{ error ?? hint }}
     </p>

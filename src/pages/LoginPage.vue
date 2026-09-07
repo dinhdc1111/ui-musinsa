@@ -3,6 +3,7 @@ import { Eye, EyeOff } from '@lucide/vue'
 import { computed, reactive, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
+import officeEditImage from '@/assets/images/home/office-edit.jpg'
 import AuthFormShell from '@/components/auth/AuthFormShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseInput from '@/components/ui/BaseInput.vue'
@@ -49,16 +50,19 @@ watch([email, password], () => {
 
 <template>
   <AuthFormShell
-    eyebrow="Welcome back"
+    mode="login"
     title="Sign in"
-    description="Access your saved items, orders and member-only benefits."
-    feature-title="Your style, all in one place."
-    feature-copy="Sign in to continue your MUSINSA experience across every device."
+    description="Sign in or create an account to get started."
+    :visual-src="officeEditImage"
+    visual-alt="Models wearing contemporary office looks in a studio campaign"
+    story-title="Work looks different now."
+    story-copy="A sharper edit for the routines, commutes, and after-hours plans that shape your week."
   >
     <form class="auth-form" novalidate @submit.prevent="submit">
       <BaseInput
         v-model="email"
         label="Email address"
+        variant="editorial"
         name="email"
         type="email"
         autocomplete="email"
@@ -71,6 +75,7 @@ watch([email, password], () => {
       <BaseInput
         v-model="password"
         label="Password"
+        variant="editorial"
         name="password"
         :type="showPassword ? 'text' : 'password'"
         autocomplete="current-password"
@@ -84,6 +89,7 @@ watch([email, password], () => {
             class="auth-form__visibility"
             type="button"
             :aria-label="showPassword ? 'Hide password' : 'Show password'"
+            :aria-pressed="showPassword"
             @click="showPassword = !showPassword"
           >
             <EyeOff v-if="showPassword" :size="18" aria-hidden="true" />
@@ -95,19 +101,21 @@ watch([email, password], () => {
       <div class="auth-form__options">
         <label class="auth-form__check">
           <input v-model="rememberMe" type="checkbox" name="remember" />
-          <span>Keep me signed in</span>
+          <span>Stay signed in</span>
         </label>
-        <button type="button" @click="requestPasswordReset">Forgot password?</button>
+        <button class="auth-form__recovery" type="button" @click="requestPasswordReset">
+          Forgot password?
+        </button>
       </div>
 
-      <p v-if="recoveryMessage" class="auth-form__notice" role="status">
+      <p v-if="recoveryMessage" class="auth-form__notice" role="status" aria-live="polite">
         {{ recoveryMessage }}
       </p>
-      <p v-if="submitted" class="auth-form__success" role="status">
-        Your details are valid. You can now connect this form to the authentication API.
+      <p v-if="submitted" class="auth-form__success" role="status" aria-live="polite">
+        Your sign-in details are ready to submit.
       </p>
 
-      <BaseButton type="submit" size="lg" full-width>Sign in</BaseButton>
+      <BaseButton class="!rounded-none" type="submit" size="lg" full-width>Sign in</BaseButton>
     </form>
 
     <template #footer>
@@ -135,10 +143,17 @@ watch([email, password], () => {
   color: var(--ds-color-muted);
   background: transparent;
   cursor: pointer;
+  transition:
+    color var(--ds-motion-fast) var(--ds-ease-standard),
+    transform var(--ds-motion-fast) var(--ds-ease-standard);
 }
 
 .auth-form__visibility:hover {
   color: var(--ds-color-text);
+}
+
+.auth-form__visibility:active {
+  transform: translateY(1px);
 }
 
 .auth-form__options {
@@ -157,31 +172,18 @@ watch([email, password], () => {
 }
 
 .auth-form__check input {
-  width: 1rem;
-  height: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
   margin: 0;
   accent-color: var(--ds-color-accent);
-}
-
-.auth-form__options button,
-.auth-form__footer-link {
-  padding: 0;
-  border: 0;
-  color: var(--ds-color-text);
-  background: transparent;
-  font: inherit;
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2rem;
-  cursor: pointer;
 }
 
 .auth-form__notice,
 .auth-form__success {
   margin: 0;
-  padding: 0.75rem;
-  border-radius: var(--ds-radius-control);
+  padding: 0.875rem 1rem;
+  border-left: 3px solid var(--ds-color-border-strong);
+  border-radius: 0.25rem;
   background: var(--ds-color-surface-muted);
   color: var(--ds-color-muted);
   font-size: var(--ds-type-caption-size);
@@ -189,7 +191,37 @@ watch([email, password], () => {
 }
 
 .auth-form__success {
+  border-left-color: var(--ds-color-success);
   color: var(--ds-color-success);
   background: var(--ds-color-success-muted);
+}
+
+.auth-form__recovery {
+  padding: 0;
+  border: 0;
+  color: var(--ds-color-muted);
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  cursor: pointer;
+}
+
+.auth-form__recovery:hover {
+  color: var(--ds-color-text);
+}
+
+.auth-form__footer-link {
+  color: var(--ds-color-text);
+  font-weight: 700;
+  text-underline-offset: 0.2rem;
+}
+
+@media (max-width: 29.999rem) {
+  .auth-form__options {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
 </style>

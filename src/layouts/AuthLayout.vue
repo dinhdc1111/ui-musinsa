@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-
-import SiteWordmark from '@/components/navigation/SiteWordmark.vue'
 </script>
 
 <template>
-  <div class="bg-canvas flex min-h-screen flex-col">
-    <header class="px-page-gutter flex min-h-20 items-center md:min-h-24">
-      <SiteWordmark />
-    </header>
-    <main id="main-content" class="grid min-h-0 flex-1 place-items-center">
+  <div class="auth-layout bg-canvas flex min-h-dvh flex-col">
+    <a
+      class="bg-accent text-accent-contrast fixed top-3 left-3 z-60 -translate-y-20 px-4 py-2 text-sm font-bold transition-transform focus:translate-y-0"
+      href="#main-content"
+    >
+      Skip to content
+    </a>
+
+    <main id="main-content" class="min-h-dvh" tabindex="-1">
       <RouterView />
     </main>
   </div>
 </template>
+
+<style scoped>
+:global(body:has(.auth-layout)) {
+  padding-bottom: 0;
+}
+</style>

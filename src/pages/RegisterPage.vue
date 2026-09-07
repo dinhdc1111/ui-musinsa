@@ -3,6 +3,7 @@ import { Eye, EyeOff } from '@lucide/vue'
 import { computed, reactive, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 
+import keithHaringImage from '@/assets/images/home/keith-haring-collab.jpg'
 import AuthFormShell from '@/components/auth/AuthFormShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseInput from '@/components/ui/BaseInput.vue'
@@ -63,40 +64,43 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
 
 <template>
   <AuthFormShell
-    eyebrow="Join MUSINSA"
+    mode="register"
     title="Create account"
-    description="Save your favorites and get access to exclusive member offers."
-    feature-title="The best of K-fashion, made personal."
-    feature-copy="Create your profile and discover edits shaped around your style."
+    description="Create your MUSINSA account to get started."
+    :visual-src="keithHaringImage"
+    visual-alt="Four models presenting contrasting contemporary looks"
+    story-title="Make it personal."
+    story-copy="Create your profile and discover edits shaped around your style."
   >
     <form class="auth-form" novalidate @submit.prevent="submit">
-      <div class="auth-form__row">
-        <BaseInput
-          v-model="name"
-          label="Full name"
-          name="name"
-          autocomplete="name"
-          placeholder="Your name"
-          :error="nameError"
-          required
-          @blur="touched.name = true"
-        />
-        <BaseInput
-          v-model="email"
-          label="Email address"
-          name="email"
-          type="email"
-          autocomplete="email"
-          placeholder="you@example.com"
-          :error="emailError"
-          required
-          @blur="touched.email = true"
-        />
-      </div>
+      <BaseInput
+        v-model="name"
+        label="Full name"
+        variant="editorial"
+        name="name"
+        autocomplete="name"
+        placeholder="Your name"
+        :error="nameError"
+        required
+        @blur="touched.name = true"
+      />
+      <BaseInput
+        v-model="email"
+        label="Email address"
+        variant="editorial"
+        name="email"
+        type="email"
+        autocomplete="email"
+        placeholder="you@example.com"
+        :error="emailError"
+        required
+        @blur="touched.email = true"
+      />
 
       <BaseInput
         v-model="password"
         label="Password"
+        variant="editorial"
         name="password"
         :type="showPassword ? 'text' : 'password'"
         autocomplete="new-password"
@@ -111,6 +115,7 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
             class="auth-form__visibility"
             type="button"
             :aria-label="showPassword ? 'Hide password' : 'Show password'"
+            :aria-pressed="showPassword"
             @click="showPassword = !showPassword"
           >
             <EyeOff v-if="showPassword" :size="18" aria-hidden="true" />
@@ -122,6 +127,7 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
       <BaseInput
         v-model="confirmPassword"
         label="Confirm password"
+        variant="editorial"
         name="confirm-password"
         :type="showPassword ? 'text' : 'password'"
         autocomplete="new-password"
@@ -131,16 +137,27 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
         @blur="touched.confirmPassword = true"
       />
 
-      <label class="auth-form__terms">
-        <input v-model="acceptTerms" type="checkbox" name="terms" @change="termsError = ''" />
+      <label class="auth-form__terms" :class="{ 'auth-form__terms--error': termsError }">
+        <input
+          v-model="acceptTerms"
+          type="checkbox"
+          name="terms"
+          :aria-invalid="termsError ? 'true' : undefined"
+          :aria-describedby="termsError ? 'terms-error' : undefined"
+          @change="termsError = ''"
+        />
         <span>I agree to the Terms of Use and acknowledge the Privacy Policy.</span>
       </label>
-      <p v-if="termsError" class="auth-form__error" role="alert">{{ termsError }}</p>
-      <p v-if="submitted" class="auth-form__success" role="status">
-        Your details are valid. You can now connect this form to the registration API.
+      <p v-if="termsError" id="terms-error" class="auth-form__error" role="alert">
+        {{ termsError }}
+      </p>
+      <p v-if="submitted" class="auth-form__success" role="status" aria-live="polite">
+        Your account details are ready to submit.
       </p>
 
-      <BaseButton type="submit" size="lg" full-width>Create account</BaseButton>
+      <BaseButton class="!rounded-none" type="submit" size="lg" full-width>
+        Create account
+      </BaseButton>
     </form>
 
     <template #footer>
@@ -155,13 +172,7 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
 <style scoped>
 .auth-form {
   display: grid;
-  gap: 1.125rem;
-}
-
-.auth-form__row {
-  display: grid;
-  align-items: start;
-  gap: 1.125rem;
+  gap: 1.25rem;
 }
 
 .auth-form__visibility {
@@ -174,10 +185,17 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
   color: var(--ds-color-muted);
   background: transparent;
   cursor: pointer;
+  transition:
+    color var(--ds-motion-fast) var(--ds-ease-standard),
+    transform var(--ds-motion-fast) var(--ds-ease-standard);
 }
 
 .auth-form__visibility:hover {
   color: var(--ds-color-text);
+}
+
+.auth-form__visibility:active {
+  transform: translateY(1px);
 }
 
 .auth-form__terms {
@@ -185,17 +203,21 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
   align-items: flex-start;
   gap: 0.625rem;
   color: var(--ds-color-muted);
-  font-size: var(--ds-type-label-size);
-  line-height: 1.4;
+  font-size: 0.875rem;
+  line-height: 1.45;
   cursor: pointer;
 }
 
 .auth-form__terms input {
-  width: 1rem;
-  height: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
   flex: none;
   margin: 0.1rem 0 0;
   accent-color: var(--ds-color-accent);
+}
+
+.auth-form__terms--error {
+  color: var(--ds-color-danger);
 }
 
 .auth-form__error,
@@ -207,8 +229,9 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
 }
 
 .auth-form__success {
-  padding: 0.75rem;
-  border-radius: var(--ds-radius-control);
+  padding: 0.875rem 1rem;
+  border-left: 3px solid var(--ds-color-success);
+  border-radius: 0.25rem;
   color: var(--ds-color-success);
   background: var(--ds-color-success-muted);
 }
@@ -217,11 +240,5 @@ watch([name, email, password, confirmPassword, acceptTerms], () => {
   color: var(--ds-color-text);
   font-weight: 700;
   text-underline-offset: 0.2rem;
-}
-
-@media (min-width: 40rem) {
-  .auth-form__row {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 </style>
